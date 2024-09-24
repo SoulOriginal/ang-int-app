@@ -9,7 +9,9 @@ import { NgcxTreeNodeWrapper } from '../../models';
   template: '',
 })
 export class FilesSidebarBaseComponent {
-  public selctedNodes = new BehaviorSubject<NgcxTreeNodeWrapper<any>>([);
+  public selctedNodes = new BehaviorSubject<NgcxTreeNodeWrapper<any> | null>(
+    null
+  );
 
   nodes = [
     {
