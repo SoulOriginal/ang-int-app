@@ -1,0 +1,25 @@
+<div class="flex size-full">
+  <!-- tmp div я тко флекс добавил -->
+
+  <div class="flex flex-col w-full max-w-[300px]">
+    <div class="w-full h-[50px] bg-headerBg"></div>
+    <div class="w-full bg-asideBg">
+      <h1 class="text-center py-5">Домашняя страница</h1>
+      <div class="border-b-2 bg-borderColor"></div>
+      <div class="flex min-width-[200px]">
+        <mat-icon aria-hidden="false" class="size-5" fontIcon="home"></mat-icon>
+
+      </div>
+      <h1 class="text-center py-5">Быстрый доступ</h1>
+      <div class="border-b-2 bg-borderColor"></div>
+
+      <apps-file-tree size="lg" [nodes]="nodes" [config]="config" /> 
+    </div>
+  </div>
+
+  <div class="size-full">
+        <div class="example-container bg-[#000000] size-full" cdkDropList (cdkDropListDropped)="onDrop($event)">
+            1
+        </div>
+    </div>
+</div>

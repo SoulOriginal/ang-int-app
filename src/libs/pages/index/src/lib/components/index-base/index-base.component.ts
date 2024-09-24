@@ -5,33 +5,4 @@ import { Component } from '@angular/core';
   standalone: true,
   template: '',
 })
-export class IndexBaseComponent {
-  nodes = [
-    {
-      id: 'meat',
-      title: 'Meat',
-    },
-    {
-      id: 'fish',
-      title: 'Fish',
-    },
-    {
-      id: 'fru',
-      title: 'Fruit',
-      children: [
-        {
-          id: 'app',
-          title: 'Apple',
-        },
-        {
-          id: 'ban',
-          title: 'Banana',
-        },
-        {
-          id: 'fruloo',
-          title: 'Fruit loops',
-        },
-      ],
-    },
-  ];
-}
+export class IndexBaseComponent {}

@@ -23,9 +23,9 @@
   </div>
   <div class="small-horizontal-tree-line"></div>
   <div class="tree-node-icon-container" *ngIf="nodeWrapper.data.faIcon">
-    <i class="fa" [class]="nodeWrapper.data.faIcon"></i>
+    <mat-icon aria-hidden="false" [fontIcon]="nodeWrapper.data.faIcon"></mat-icon>
   </div>
-  <div class="tree-node-content">
+  <div class="tree-node-content font-medium text-xs leading-4">
     <span
       *ngIf="
         !treeConfig?.treeNodeContentComponent &&

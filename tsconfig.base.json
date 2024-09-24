@@ -18,14 +18,17 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@apps/libs-ui-file-tree-node": [
-        "src/libs/ui/file-tree-node/src/index.ts"
+      "@apps/libs-widgets-files-sidebar": [
+        "src/libs/widgets/files-sidebar/src/index.ts"
       ],
       "@apps/libs-features-file-tree": [
         "src/libs/features/file-tree/src/index.ts"
       ],
       "@apps/libs-pages-index": [
         "src/libs/pages/index/src/index.ts"
+      ],
+      "@apps/libs-ui-file-tree-node": [
+        "src/libs/ui/file-tree-node/src/index.ts"
       ],
       "@apps/shared-tokens-screen-breakpoints": [
         "src/libs/shared/tokens/screen-breakpoints/src/index.ts"

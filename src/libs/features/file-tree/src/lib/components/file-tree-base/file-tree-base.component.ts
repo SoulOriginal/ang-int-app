@@ -278,13 +278,15 @@ export class FileTreeBaseComponent {
     const movedNode = event.source.data;
     const target = <HTMLDivElement>event.event.target;
     const dropZoneId = target.id ?? target.parentElement?.id;
+    console.log(dropZoneId);
     if (!dropZoneId) {
       // no valid drop zone
-      return;
+      // return;
     }
 
     const dropZoneInfo = new DropZoneInfo(dropZoneId);
     const toNode = this.treeControl.findNodeById(dropZoneInfo.nodeId);
+    console.log(toNode);
     if (!toNode) {
       console.error(`node with id '${dropZoneInfo.nodeId}' could not be found`);
       return;
@@ -383,12 +385,22 @@ export class FileTreeBaseComponent {
   }
 
   nodeClicked(nodeWrapper: NgcxTreeNodeWrapper<NgcxTreeNode>) {
-    console.log(123);
     this.clickEvent.emit(nodeWrapper);
+
     if (nodeWrapper.isSelectable) {
       this.selectedNode =
         nodeWrapper.id === this.selectedNode?.id ? undefined : nodeWrapper;
       this.selectEvent.emit(this.selectedNode);
+    }
+
+    if (this.treeControl.isExpanded(nodeWrapper)) {
+      this.treeControl.collapse(nodeWrapper);
+
+      nodeWrapper.children.forEach((item) => {
+        this.treeControl.collapse(item);
+      });
+    } else {
+      this.treeControl.expand(nodeWrapper);
     }
   }
 
