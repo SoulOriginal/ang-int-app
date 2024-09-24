@@ -6,14 +6,14 @@
     <div class="w-full bg-asideBg">
       <h1 class="text-center py-5">Домашняя страница</h1>
       <div class="border-b-2 bg-borderColor"></div>
-      <div class="flex min-width-[200px]">
+      <div class="flex justify-center items-center bg-lightColor gap-5">
         <mat-icon aria-hidden="false" class="size-5" fontIcon="home"></mat-icon>
-
+        <span>Все файлы</span>
       </div>
       <h1 class="text-center py-5">Быстрый доступ</h1>
       <div class="border-b-2 bg-borderColor"></div>
 
-      <apps-file-tree size="lg" [nodes]="nodes" [config]="config" /> 
+      <apps-file-tree size="lg" [nodes]="nodes" [config]="config" (selectEvent)="onSelect($event)"  /> 
     </div>
   </div>
 

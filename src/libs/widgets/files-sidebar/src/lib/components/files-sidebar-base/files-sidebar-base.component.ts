@@ -1,5 +1,7 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { NgcxTreeNodeWrapper } from '../../models';
 
 @Component({
   selector: 'apps-files-sidebar-base',
@@ -7,6 +9,8 @@ import { Component } from '@angular/core';
   template: '',
 })
 export class FilesSidebarBaseComponent {
+  public selctedNodes = new BehaviorSubject<NgcxTreeNodeWrapper<any>>([);
+
   nodes = [
     {
       id: 'favorites',
