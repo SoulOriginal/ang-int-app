@@ -13,6 +13,7 @@
   (keydown.arrowdown)="keyDownArrowDown($event)"
   (keydown.arrowleft)="keyDownArrowLeft($event)"
   (keydown.arrowright)="keyDownArrowRight($event)"
+  (cdkDropListDropped)="onDrop()"
   tabindex="0">
   <cdk-nested-tree-node *cdkTreeNodeDef="let node" class="tree-node">
     <div

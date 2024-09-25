@@ -24,6 +24,11 @@ import { isParentOf } from '../../utils/is-parent-of';
   template: '',
 })
 export class FileTreeBaseComponent {
+  onDrop() {
+    console.log('Item dropped inside the tree:');
+    // Логика обработки после сброса внутри компонента дерева
+  }
+
   @Input() nodes?: NgcxTreeNode[];
   @Input() config?: NgcxTreeConfig<NgcxTreeNode>;
 
@@ -31,6 +36,7 @@ export class FileTreeBaseComponent {
     NgcxTreeNodeMovedEvent<NgcxTreeNode>
   >();
   @Output() customEvent = new EventEmitter<any>();
+  @Output() updatedNodes = new EventEmitter<NgcxTreeNode>();
   @Output() clickEvent = new EventEmitter<NgcxTreeNodeWrapper<NgcxTreeNode>>();
   @Output() selectEvent = new EventEmitter<NgcxTreeNodeWrapper<NgcxTreeNode>>();
 
@@ -333,6 +339,7 @@ export class FileTreeBaseComponent {
       addAtNodeIdx > -1 && wrapperList.length > addAtNodeIdx
         ? wrapperList[addAtNodeIdx]
         : undefined;
+
     this.nodeMoved.emit({
       node: movedNode,
       parent:
@@ -344,6 +351,7 @@ export class FileTreeBaseComponent {
       this.createWrapperNodes(this.nodes!)
     );
     this.treeControl.dataNodes = this.dataSource.data$.value;
+    this.updatedNodes.emit(this.treeControl.findNodeById(dropZoneInfo.nodeId));
   }
 
   private findAddIndex(

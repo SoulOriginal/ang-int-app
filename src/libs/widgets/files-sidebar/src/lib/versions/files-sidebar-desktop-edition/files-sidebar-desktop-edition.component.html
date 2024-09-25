@@ -13,13 +13,30 @@
       <h1 class="text-center py-5">Быстрый доступ</h1>
       <div class="border-b-2 bg-borderColor"></div>
 
-      <apps-file-tree size="lg" [nodes]="nodes" [config]="config" (selectEvent)="onSelect($event)"  /> 
+      <apps-file-tree size="lg" [nodes]="nodes" [config]="config" (selectEvent)="onSelect($event)" (updatedNodes)="onSelect($event)"  /> 
     </div>
   </div>
 
   <div class="size-full">
-        <div class="example-container bg-[#000000] size-full" cdkDropList (cdkDropListDropped)="onDrop($event)">
-            1
+        <div class="example-container bg-[#9b8686] size-full text-white" cdkDropListGroup>
+          <div class="grid grid-cols-3 gap-6 items-stretch size-full" cdkDropList (cdkDropListDropped)="onDrop($event)">
+            @if ((selctedNodes | async)) {
+              @for (node of (selctedNodes | async)?.children; track $index) {
+   
+   
+               <div [id]="node.id + '_' + 'DROP_AFTER'" cdkDrag [cdkDragData]="node">
+                  {{node.data.title}}
+                  <mat-icon aria-hidden="false" class="size-5" fontIcon="folder"></mat-icon>
+               </div>
+              }
+   
+            }
+
+          </div>
+
+                
+ 
+
         </div>
     </div>
 </div>

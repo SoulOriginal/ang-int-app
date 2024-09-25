@@ -35,6 +35,7 @@ import {
       (customEvent)="customEvent.emit($event)"
       (clickEvent)="clickEvent.emit($event)"
       (selectEvent)="selectEvent.emit($event)"
+      (updatedNodes)="updatedNodes.emit($event)"
     ></apps-file-tree-desktop-edition>
     } @else {
     <apps-file-tree-mobile-edition></apps-file-tree-mobile-edition>
@@ -60,4 +61,5 @@ export class FileTreeComponent {
   @Output() customEvent = new EventEmitter<any>();
   @Output() clickEvent = new EventEmitter<NgcxTreeNodeWrapper<NgcxTreeNode>>();
   @Output() selectEvent = new EventEmitter<NgcxTreeNodeWrapper<NgcxTreeNode>>();
+  @Output() updatedNodes = new EventEmitter<NgcxTreeNode>();
 }

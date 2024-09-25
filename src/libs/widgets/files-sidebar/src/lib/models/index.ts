@@ -1,23 +1,23 @@
 import { EventEmitter, TemplateRef, Type } from '@angular/core';
 
-export interface NgcxTreeConfig<T extends NgcxTreeNode> {
-  treeNodeContentComponent?: Type<NgcxCustomComponent<T>>;
+export interface NgcxTreeConfig {
+  treeNodeContentComponent?: Type<NgcxCustomComponent>;
   treeNodeContentTemplate?: TemplateRef<any>;
 
   allowDrop?: (
-    node: NgcxTreeNodeWrapper<T>,
-    intoNode?: NgcxTreeNodeWrapper<T>
+    node: NgcxTreeNodeWrapper,
+    intoNode?: NgcxTreeNodeWrapper
   ) => boolean;
   preventDropReason?: (
-    node: NgcxTreeNodeWrapper<T>,
-    intoNode?: NgcxTreeNodeWrapper<T>
+    node: NgcxTreeNodeWrapper,
+    intoNode?: NgcxTreeNodeWrapper
   ) => string | undefined;
-  allowDrag?: (node: NgcxTreeNodeWrapper<T>) => boolean;
-  allowSelection?: (node: NgcxTreeNodeWrapper<T>) => boolean;
+  allowDrag?: (node: NgcxTreeNodeWrapper) => boolean;
+  allowSelection?: (node: NgcxTreeNodeWrapper) => boolean;
 }
 
-export interface NgcxCustomComponent<T extends NgcxTreeNode> {
-  nodeWrapper?: NgcxTreeNodeWrapper<T>;
+export interface NgcxCustomComponent {
+  nodeWrapper?: NgcxTreeNodeWrapper;
   customEvent?: EventEmitter<any>;
 }
 
@@ -28,27 +28,27 @@ export interface NgcxTreeNode {
   children?: NgcxTreeNode[];
 }
 
-export interface NgcxTreeNodeWrapper<T extends NgcxTreeNode> {
+export interface NgcxTreeNodeWrapper extends NgcxTreeNode {
   id: string;
-  data: T;
+  data: NgcxTreeNode;
   depth: number;
   index: number;
   isSelectable?: boolean;
   isFirstChild: boolean;
   isLastChild: boolean;
-  children: NgcxTreeNodeWrapper<T>[];
-  parent?: NgcxTreeNodeWrapper<T>;
-  next?: NgcxTreeNodeWrapper<T>;
-  previous?: NgcxTreeNodeWrapper<T>;
+  children: NgcxTreeNodeWrapper[];
+  parent?: NgcxTreeNodeWrapper;
+  next?: NgcxTreeNodeWrapper;
+  previous?: NgcxTreeNodeWrapper;
 }
 
-export interface NgcxTreeNodeComponent<T extends NgcxTreeNode> {
-  nodeWrapper?: NgcxTreeNodeWrapper<T>;
+export interface NgcxTreeNodeComponent {
+  nodeWrapper?: NgcxTreeNodeWrapper;
 }
 
-export interface NgcxTreeNodeMovedEvent<T extends NgcxTreeNode> {
-  node: NgcxTreeNodeWrapper<T>;
-  parent?: NgcxTreeNodeWrapper<T>;
-  afterNode?: NgcxTreeNodeWrapper<T>;
-  beforeNode?: NgcxTreeNodeWrapper<T>;
+export interface NgcxTreeNodeMovedEvent {
+  node: NgcxTreeNodeWrapper;
+  parent?: NgcxTreeNodeWrapper;
+  afterNode?: NgcxTreeNodeWrapper;
+  beforeNode?: NgcxTreeNodeWrapper;
 }

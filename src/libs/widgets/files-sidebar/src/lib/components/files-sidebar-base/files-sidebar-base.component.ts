@@ -1,6 +1,6 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, filter } from 'rxjs';
 import { NgcxTreeNodeWrapper } from '../../models';
 
 @Component({
@@ -9,9 +9,8 @@ import { NgcxTreeNodeWrapper } from '../../models';
   template: '',
 })
 export class FilesSidebarBaseComponent {
-  public selctedNodes = new BehaviorSubject<NgcxTreeNodeWrapper<any> | null>(
-    null
-  );
+  private selctedNodes$ = new BehaviorSubject<NgcxTreeNodeWrapper | null>(null);
+  public selctedNodes = this.selctedNodes$.pipe(filter(Boolean));
 
   nodes = [
     {
@@ -22,7 +21,27 @@ export class FilesSidebarBaseComponent {
           id: 'folder1',
           title: 'Folder 1',
           faIcon: 'folder',
-          children: [],
+          children: [
+            {
+              id: 'folder1231',
+              title: 'Folder 1213',
+              faIcon: 'folder2',
+              children: [
+                {
+                  id: 'folder12231',
+                  title: 'Folder 12123',
+                  faIcon: 'folder22',
+                  children: [
+                    {
+                      id: 'png_file2',
+                      title: 'PNG Fil2e',
+                      faIcon: 'fa-file-image',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
         },
         {
           id: 'folder2',
@@ -203,7 +222,7 @@ export class FilesSidebarBaseComponent {
   done = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
 
   onDrop(event: CdkDragDrop<any>) {
-    console.log(event);
+    console.log({ event });
     // if (event.previousContainer === event.container) {
     //   moveItemInArray(
     //     event.container.data,
@@ -220,6 +239,7 @@ export class FilesSidebarBaseComponent {
     // }
   }
   onSelect(event: any) {
-    console.log(event);
+    console.log({ event });
+    this.selctedNodes$.next(event);
   }
 }
