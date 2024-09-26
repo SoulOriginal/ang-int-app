@@ -39,12 +39,9 @@ module.exports = [
   {
     files: ['**/*.json'],
     rules: {
-      '@nx/dependency-checks': [
-        'error',
-        { ignoredFiles: ['{projectRoot}/eslint.config.{js,cjs,mjs}'] },
-      ],
-      'prettier/prettier': ['error', { printWidth: 150 }],
-      'max-len': ['error', 150],
+      '@nx/dependency-checks': ['error', { ignoredFiles: ['{projectRoot}/eslint.config.{js,cjs,mjs}'] }],
+      'prettier/prettier': ['error', { printWidth: 180 }],
+      'max-len': ['error', 180],
     },
     languageOptions: { parser: require('jsonc-eslint-parser') },
   },

@@ -19,8 +19,6 @@
           </button>
         </div>
         <div class="border-b-2 border-borderColor"></div>
-        <h1 class="text-center py-5">Quick access</h1>
-        <div class="border-b-2 border-borderColor"></div>
         <div class="p-8 min-h-[350px] text-center">
           <apps-file-tree size="lg" [nodes]="nodes" [config]="config" (selectEvent)="onSelect($event)" (updatedNodes)="onSelect($event)" />
         </div>
@@ -38,14 +36,13 @@
         </div>
 
         <div class="border-b-2 border-borderColor"></div>
-        <div class="inline-flex  py-5 gap-6 justify-start  px-8">
-          <button class="flex flex-col items-center justify-center">
-            <mat-icon aria-hidden="false" class="size-2" fontIcon="reply"></mat-icon>
-            <span>Back</span>
+
+        <div class="inline-flex  py-5 gap-6 justify-between px-8 w-full">
+          <button mat-mini-fab class="!bg-transparent">
+            <mat-icon class="!text-black size-2" aria-hidden="false" fontIcon="undo" />
           </button>
-          <button class="flex flex-col items-center justify-center ">
-            <mat-icon aria-hidden="false" class="size-2 transform scale-x-[-1]" fontIcon="reply"></mat-icon>
-            <span>Go ahead</span>
+          <button mat-mini-fab class="!bg-transparent">
+            <mat-icon class="!text-black size-2" aria-hidden="false" fontIcon="redo" />
           </button>
         </div>
 
@@ -218,14 +215,13 @@
           <span class=" text-[27.73px] leading-[33.56px]">All files</span>
         </div>
         <div class="example-container bg-[#000000] size-full" cdkDropList (cdkDropListDropped)="onDrop($event)">
-          <div class="example-container bg-[#fff] size-full text-black" cdkDropListGroup>
+          <div class=" bg-[#fff] size-full text-black" cdkDropListGroup>
             <div class="grid grid-cols-7 gap-2  size-full" cdkDropList (cdkDropListDropped)="onDrop($event)">
               @if ((selctedNodes | async)) {
               @for (node of (selctedNodes | async)?.children; track $index) {
-              <div [id]="node.id + '_' + 'DROP_AFTER'" cdkDrag [cdkDragData]="node"
-                class="flex items-center flex-col  hover:bg-[#f5f5f5] transition-all duration-200 cursor-pointer	">
-                <mat-icon aria-hidden="false" class=" " svgIcon="apps-folder"></mat-icon>
-                <span class="text-center text-xl">{{node.data.title}}</span>
+              <div [id]="node.id + '_' + 'DROP_AFTER'" cdkDrag [cdkDragData]="node" class="hover:bg-[#f5f5f5] rounded-lg ursor-pointer flex flex-col justify-center items-center gap-1">
+                <mat-icon class="text-[80px] !size-20 text-[#2587be]" [fontIcon]="node?.data?.faIcon ?? 'broken_image'"></mat-icon>
+                <span class="text-center text-sm">{{node.data.title}}</span>
               </div>
               }
               }

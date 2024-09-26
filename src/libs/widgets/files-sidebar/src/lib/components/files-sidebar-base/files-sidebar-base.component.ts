@@ -1,5 +1,5 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { BehaviorSubject, filter, take } from 'rxjs';
 import { NgcxTreeNode, NgcxTreeNodeWrapper } from '../../models';
 import { CreationItemsService } from '../../services';
@@ -9,7 +9,7 @@ import { CreationItemsService } from '../../services';
   standalone: true,
   template: '',
 })
-export class FilesSidebarBaseComponent {
+export class FilesSidebarBaseComponent implements OnInit {
   private selctedNodes$ = new BehaviorSubject<NgcxTreeNodeWrapper | null>(null);
   public selctedNodes = this.selctedNodes$.pipe(filter(Boolean));
 
@@ -28,17 +28,17 @@ export class FilesSidebarBaseComponent {
             {
               id: 'folder1231',
               title: 'Folder 1213',
-              faIcon: 'folder2',
+              faIcon: 'folder',
               children: [
                 {
                   id: 'folder12231',
                   title: 'Folder 12123',
-                  faIcon: 'folder22',
+                  faIcon: 'folder',
                   children: [
                     {
                       id: 'png_file2',
                       title: 'PNG Fil2e',
-                      faIcon: 'fa-file-image',
+                      faIcon: 'description',
                     },
                   ],
                 },
@@ -55,20 +55,139 @@ export class FilesSidebarBaseComponent {
         {
           id: 'pdf_file',
           title: 'PDF File',
-          faIcon: 'fa-file-pdf',
+          faIcon: 'description',
         },
         {
           id: 'png_file',
           title: 'PNG File',
-          faIcon: 'fa-file-image',
+          faIcon: 'description',
         },
       ],
+    },
+    {
+      id: 'fold1er2',
+      title: 'Folder 2',
+      children: [],
+    },
+    {
+      id: 'folde123r2',
+      title: 'Folder 2',
+      faIcon: 'folder',
+      children: [],
+    },
+    {
+      id: 'folde123r2',
+      title: 'Folder 2',
+      faIcon: 'folder',
+      children: [],
+    },
+    {
+      id: 'folde123r2',
+      title: 'Folder 2',
+      faIcon: 'folder',
+      children: [],
+    },
+    {
+      id: 'fold123er2',
+      title: 'Folder 2',
+      faIcon: 'folder',
+      children: [],
+    },
+    {
+      id: 'folde123123r2',
+      title: 'Folder 2',
+      faIcon: 'folder',
+      children: [],
+    },
+    {
+      id: 'folde123123r2',
+      title: 'Folder 2',
+      faIcon: 'folder',
+      children: [],
+    },
+    {
+      id: 'fol123123der2',
+      title: 'Folder 2',
+      faIcon: 'folder',
+      children: [],
+    },
+    {
+      id: 'folder1231232',
+      title: 'Folder 2',
+      faIcon: 'folder',
+      children: [],
+    },
+    {
+      id: 'folde123123r2',
+      title: 'Folder 2',
+      faIcon: 'folder',
+      children: [],
+    },
+    {
+      id: 'folder1231232',
+      title: 'Folder 2',
+      faIcon: 'folder',
+      children: [],
+    },
+    {
+      id: 'folde123123r2',
+      title: 'Folder 2',
+      faIcon: 'folder',
+      children: [],
+    },
+    {
+      id: 'fo123lder2',
+      title: 'Folder 2',
+      faIcon: 'folder',
+      children: [],
+    },
+    {
+      id: 'f123older2',
+      title: 'Folder 2',
+      faIcon: 'folder',
+      children: [],
+    },
+    {
+      id: 'fold123dfer2',
+      title: 'Folder 2',
+      faIcon: 'folder',
+      children: [],
+    },
+    {
+      id: 'foldesdfr2',
+      title: 'Folder 2',
+      faIcon: 'folder',
+      children: [],
+    },
+    {
+      id: 'foldesdfr2',
+      title: 'Folder 2',
+      faIcon: 'folder',
+      children: [],
+    },
+    {
+      id: 'folderasdf2',
+      title: 'Folder 2',
+      faIcon: 'folder',
+      children: [],
     },
   ];
 
   config = {
     allowSelection: () => true,
   };
+
+  ngOnInit(): void {
+    // const getBaseWraps = this._creationItemsService.createWrapperNodes(this.nodes)
+    // const anyy = getBaseWraps.map((node) => {
+    //   return {
+    //     id: 'null',
+    //     title: 'null',
+    //     children: [],
+    //   }
+    // }
+    // this.selctedNodes$.next(anyy);
+  }
 
   onDrop(event: CdkDragDrop<any>) {
     console.log({ event });

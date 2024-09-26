@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NgcxTreeNode } from '../models';
+import { NgcxTreeNode, NgcxTreeNodeWrapper } from '../models';
 
 @Injectable()
 export class CreationItemsService {
@@ -28,7 +28,7 @@ export class CreationItemsService {
       const file: NgcxTreeNode = {
         id: this.generateId(),
         title: `File ${i + 1}.${fileType}`,
-        faIcon: isPdf ? 'fa-file-pdf' : 'fa-file-image',
+        faIcon: isPdf ? 'description' : 'image',
       };
       files.push(file);
     }
@@ -36,11 +36,7 @@ export class CreationItemsService {
   }
 
   // Добавление элементов в ноду дерева
-  addItemsToNode(
-    nodes: NgcxTreeNode[],
-    selectedNodeId: string,
-    items: NgcxTreeNode[]
-  ): NgcxTreeNode[] {
+  addItemsToNode(nodes: NgcxTreeNode[], selectedNodeId: string, items: NgcxTreeNode[]): NgcxTreeNode[] {
     // Рекурсивно ищем ноду, обновляем ее и возвращаем новое дерево
     return nodes.map((node) => {
       if (node.id === selectedNodeId) {
@@ -60,6 +56,35 @@ export class CreationItemsService {
         return node; // Если это не целевая нода, возвращаем её без изменений
       }
     });
+  }
+
+  createWrapperNodes(nodes: NgcxTreeNode[], parent?: NgcxTreeNodeWrapper, depth: number = 0): NgcxTreeNodeWrapper[] {
+    const childCount = nodes.length;
+    const wrapperNodes = nodes.map((node, idx) => {
+      const nodeWrapper: NgcxTreeNodeWrapper = {
+        id: node.id,
+        data: <NgcxTreeNode>node,
+        isFirstChild: idx === 0,
+        isLastChild: idx === childCount - 1,
+        index: idx,
+        parent: parent,
+        depth: depth,
+        children: [],
+      };
+      nodeWrapper.children = node.children ? this.createWrapperNodes(node.children, nodeWrapper, depth + 1) : [];
+
+      return nodeWrapper;
+    });
+    wrapperNodes.forEach((wrapperNode) => {
+      if (!wrapperNode.isLastChild) {
+        wrapperNode.next = wrapperNodes[wrapperNode.index + 1];
+      }
+      if (!wrapperNode.isFirstChild) {
+        wrapperNode.previous = wrapperNodes[wrapperNode.index - 1];
+      }
+      wrapperNode.isSelectable = true;
+    });
+    return wrapperNodes;
   }
 
   // Метод для генерации уникальных ID

@@ -103,13 +103,13 @@
   "editor.formatOnSave": true,
   // "html.format.wrapAttributes": "force-expand-multiline",
   // "html.format.wrapLineLength": 150,
-  "html.format.wrapLineLength": 170,
+  "html.format.wrapLineLength": 190,
   "html.format.wrapAttributes": "preserve",
   "html.format.templating": true,
   "html.format.indentHandlebars": true,
   // "editor.defaultFormatter": "esbenp.prettier-vscode",
   "angular.enable-strict-mode-prompt": true,
-  "prettier.printWidth": 170
+  "prettier.printWidth": 190
   // "editor.wordWrap": "off"
   // "html.format.unformatted": "wbr,button,mat-icon"
   // "[html]": {
