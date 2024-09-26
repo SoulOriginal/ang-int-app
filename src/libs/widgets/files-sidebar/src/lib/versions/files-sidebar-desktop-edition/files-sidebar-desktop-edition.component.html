@@ -20,7 +20,7 @@
         </div>
         <div class="border-b-2 border-borderColor"></div>
         <div class="p-8 min-h-[350px] text-center">
-          <apps-file-tree size="lg" [nodes]="nodes" [config]="config" (selectEvent)="onSelect($event)" (updatedNodes)="onSelect($event)" />
+          <apps-file-tree size="lg" [nodes]="(nodes$ | async)!" [config]="config" (selectEvent)="onSelect($event)" (updatedNodes)="onSelect($event)" />
         </div>
         <div class="border-b-2 border-borderColor"></div>
         <div class="w-full flex flex-col items-center gap-1 py-5 align-bottom h-stretch">
@@ -199,33 +199,50 @@
           <span class="text-lightColor">Create the object</span>
         </button>
         <button
-          class="flex flex-col p-3 bg-lightColor rounded-xl border-2 border-black hover:bg-black transition-all duration-200 hover:text-lightColor gap-1">
-          <mat-icon aria-hidden="false" class="size-2 " fontIcon="download"></mat-icon>
-          <span>Download the object</span>
-        </button>
-        <button
+          (click)="handleCreateFolders(1)"
           class="flex flex-col p-3 bg-lightColor rounded-xl border-2 border-black hover:bg-black transition-all duration-200 hover:text-lightColor">
           <mat-icon aria-hidden="false" class="size-2 " fontIcon="create_new_folder"></mat-icon>
           <span>Create a folder</span>
+        </button>
+        <button
+          class="flex flex-col p-3 bg-lightColor rounded-xl border-2 border-black hover:bg-black transition-all duration-200 hover:text-lightColor gap-1">
+          <mat-icon aria-hidden="false" class="size-2 " fontIcon="download"></mat-icon>
+          <span>Download the object</span>
         </button>
       </div>
       <div class="flex gap-1 flex-col py-8">
         <div>
           <mat-icon aria-hidden="false" class="size-2" fontIcon="folder"></mat-icon>
-          <span class=" text-[27.73px] leading-[33.56px]">All files {{ (selctedNodes | async)?.data?.title }}</span>
+          <span class=" text-[27.73px] leading-[33.56px]">All files {{ (selctedNodes$ | async)?.data?.title }}</span>
         </div>
-        <div class="example-container bg-[#000000] size-full" cdkDropList (cdkDropListDropped)="onDrop($event)">
+        <div class="example-container bg-[#000000] size-full" cdkDropList>
           <div class="example-container bg-[#fff] size-full text-black" cdkDropListGroup>
-            <div class="example-container bg-[#000000] size-full" cdkDropList (cdkDropListDropped)="onDrop($event)">
+            <div class="example-container bg-[#000000] size-full" cdkDropList>
               <div class=" bg-[#fff] size-full text-black" cdkDropListGroup>
-                <div class="grid grid-cols-7 gap-2  size-full" cdkDropList (cdkDropListDropped)="onDrop($event)">
-                  @if ((selctedNodes | async)) {
-                  @for (node of (selctedNodes | async)?.children; track $index) {
-                  <div [ngClass]="{'bg-[#c4c6d3]': node.id === (selctedNode | async)?.id}" (dblclick)="onSelect(node)" (click)="handleClickNode(node)" [id]="node.id + '_' + 'DROP_AFTER'"
+                <div class="grid grid-cols-7 gap-2  size-full" cdkDropList>
+                  @if ((selctedNodes$ | async)) {
+                  @for (node of (selctedNodes$ | async)?.children; track $index) {
+                  <div [ngClass]="{'bg-[#c4c6d3]': node.id === (selctedNode$ | async)?.id}" (click)="handleClickNode(node)" [id]="node.id + '_' + 'DROP_AFTER'"
                     cdkDrag [cdkDragData]="node"
                     class="cursor-pointer hover:bg-[#f5f5f5] rounded-lg ursor-pointer flex flex-col justify-center items-center gap-1">
                     <mat-icon class="text-[80px] !size-20 text-[#2587be]" [fontIcon]="node?.data?.faIcon ?? 'broken_image'"></mat-icon>
                     <span class="text-center text-sm">{{node.data.title}}</span>
+                  </div>
+                  }
+                  @empty {
+                  <div *ngIf="{ data: selctedNodes$ | async } as node">
+                    @if(node.data){
+                    <div [ngClass]="{'bg-[#c4c6d3]': node.data.id === (selctedNode$ | async)?.id}" (click)="handleClickNode(node.data)"
+                      [id]="node.data.id + '_' + 'DROP_AFTER'"
+                      cdkDrag [cdkDragData]="node"
+                      class="cursor-pointer hover:bg-[#f5f5f5] rounded-lg ursor-pointer flex flex-col justify-center items-center gap-1">
+
+
+                      <mat-icon class="text-[80px] !size-20 text-[#2587be]" [fontIcon]="node.data.data.faIcon ?? 'broken_image'"></mat-icon>
+
+                      <span class="text-center text-sm">{{node.data.data.title}}</span>
+                    </div>
+                    }
                   </div>
                   }
                   }
@@ -237,3 +254,4 @@
       </div>
 
     </div>
+  </div>

@@ -1,6 +1,8 @@
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { Component, inject, OnInit } from '@angular/core';
-import { BehaviorSubject, filter, take } from 'rxjs';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FileDialogService } from '@apps/libs-features-file-dialog';
+import { BehaviorSubject, combineLatest, filter, map, merge, switchMap, take, takeUntil, tap, withLatestFrom } from 'rxjs';
+import { tree } from '../../datas';
 import { NgcxTreeNode, NgcxTreeNodeWrapper } from '../../models';
 import { CreationItemsService } from '../../services';
 
@@ -10,230 +12,105 @@ import { CreationItemsService } from '../../services';
   template: '',
 })
 export class FilesSidebarBaseComponent implements OnInit {
-  private selctedNodes$ = new BehaviorSubject<NgcxTreeNodeWrapper | null>(null);
-  public selctedNodes = this.selctedNodes$.pipe(filter(Boolean));
-
-  private selctedNode$ = new BehaviorSubject<NgcxTreeNodeWrapper | null>(null);
-  public selctedNode = this.selctedNode$.pipe(filter(Boolean));
-
+  private destroyRef = inject(DestroyRef);
   private _creationItemsService = inject(CreationItemsService);
+  private _fileDialogService = inject(FileDialogService);
 
-  public nodes: NgcxTreeNode[] = [
-    {
-      id: 'favorites',
-      title: 'Favorites',
-      children: [
-        {
-          id: 'folder1',
-          title: 'Folder 1',
-          faIcon: 'folder',
-          children: [
-            {
-              id: 'folder1231',
-              title: 'Folder 1213',
-              faIcon: 'folder',
-              children: [
-                {
-                  id: 'folder12231',
-                  title: 'Folder 12123',
-                  faIcon: 'folder',
-                  children: [
-                    {
-                      id: 'png_file2',
-                      title: 'PNG Fil2e',
-                      faIcon: 'description',
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: 'folder2',
-          title: 'Folder 2',
-          faIcon: 'folder',
-          children: [],
-        },
-        {
-          id: 'pdf_file',
-          title: 'PDF File',
-          faIcon: 'description',
-        },
-        {
-          id: 'png_file',
-          title: 'PNG File',
-          faIcon: 'description',
-        },
-      ],
-    },
-    {
-      id: 'fold1er2',
-      title: 'Folder 2',
-      children: [],
-    },
-    {
-      id: 'folde123r2',
-      title: 'Folder 2',
-      faIcon: 'folder',
-      children: [],
-    },
-    {
-      id: 'folde123r2',
-      title: 'Folder 2',
-      faIcon: 'folder',
-      children: [],
-    },
-    {
-      id: 'folde123r2',
-      title: 'Folder 2',
-      faIcon: 'folder',
-      children: [],
-    },
-    {
-      id: 'fold123er2',
-      title: 'Folder 2',
-      faIcon: 'folder',
-      children: [],
-    },
-    {
-      id: 'folde123123r2',
-      title: 'Folder 2',
-      faIcon: 'folder',
-      children: [],
-    },
-    {
-      id: 'folde123123r2',
-      title: 'Folder 2',
-      faIcon: 'folder',
-      children: [],
-    },
-    {
-      id: 'fol123123der2',
-      title: 'Folder 2',
-      faIcon: 'folder',
-      children: [],
-    },
-    {
-      id: 'folder1231232',
-      title: 'Folder 2',
-      faIcon: 'folder',
-      children: [],
-    },
-    {
-      id: 'folde123123r2',
-      title: 'Folder 2',
-      faIcon: 'folder',
-      children: [],
-    },
-    {
-      id: 'folder1231232',
-      title: 'Folder 2',
-      faIcon: 'folder',
-      children: [],
-    },
-    {
-      id: 'folde123123r2',
-      title: 'Folder 2',
-      faIcon: 'folder',
-      children: [],
-    },
-    {
-      id: 'fo123lder2',
-      title: 'Folder 2',
-      faIcon: 'folder',
-      children: [],
-    },
-    {
-      id: 'f123older2',
-      title: 'Folder 2',
-      faIcon: 'folder',
-      children: [],
-    },
-    {
-      id: 'fold123dfer2',
-      title: 'Folder 2',
-      faIcon: 'folder',
-      children: [],
-    },
-    {
-      id: 'foldesdfr2',
-      title: 'Folder 2',
-      faIcon: 'folder',
-      children: [],
-    },
-    {
-      id: 'foldesdfr2',
-      title: 'Folder 2',
-      faIcon: 'folder',
-      children: [],
-    },
-    {
-      id: 'folderasdf2',
-      title: 'Folder 2',
-      faIcon: 'folder',
-      children: [],
-    },
-  ];
+  private selctedNodes = new BehaviorSubject<NgcxTreeNodeWrapper | null>(null);
+  public selctedNodes$ = this.selctedNodes.pipe(filter(Boolean));
+
+  private selctedNode = new BehaviorSubject<NgcxTreeNodeWrapper | null>(null);
+  public selctedNode$ = this.selctedNode.pipe(filter(Boolean));
+
+  private nodes = new BehaviorSubject<NgcxTreeNode[]>([]);
+  public nodes$ = this.nodes.pipe(filter(Boolean));
 
   config = {
     allowSelection: () => true,
   };
 
   ngOnInit(): void {
-    // const getBaseWraps = this._creationItemsService.createWrapperNodes(this.nodes)
-    // const anyy = getBaseWraps.map((node) => {
-    //   return {
-    //     id: 'null',
-    //     title: 'null',
-    //     children: [],
-    //   }
-    // }
-    // this.selctedNodes$.next(anyy);
+    this.nodes.next(tree);
+
+    const getInitialTreeView: NgcxTreeNodeWrapper = {
+      id: 'bla-bla-bla',
+      title: 'View All Objects',
+      isFirstChild: false,
+      isLastChild: false,
+      data: {
+        id: 'bla-bla-bla',
+        title: 'View All Objects',
+        children: [],
+      },
+      index: -1,
+      depth: 0,
+      children: this._creationItemsService.createWrapperNodes(tree),
+    };
+
+    this.selctedNodes.next(getInitialTreeView);
+
+    this.selctedNode$
+      .pipe(
+        withLatestFrom(this.nodes$),
+        map(([selectedNode, nodes]) => ({ selectedNode, nodes })),
+        switchMap(({ selectedNode, nodes }) => {
+          const dialogRef = this._fileDialogService.openDialog('lg');
+          dialogRef.componentInstance.title = selectedNode.data.title;
+          dialogRef.componentInstance.icon = selectedNode?.data?.faIcon ?? null;
+
+          return merge(
+            dialogRef.componentInstance.openEvent.pipe(
+              take(1),
+              tap(() => {
+                this.onSelect(selectedNode);
+                dialogRef.close();
+              })
+            ),
+            dialogRef.componentInstance.updateTitle.pipe(
+              tap((title) => {
+                this.nodes.next(this._creationItemsService.updateNodeProperties(nodes, selectedNode.id, title, selectedNode?.data?.faIcon));
+              })
+            ),
+            dialogRef.componentInstance.updateIcon.pipe(
+              tap((icon) => {
+                this.nodes.next(this._creationItemsService.updateNodeProperties(nodes, selectedNode.id, selectedNode.data.title, icon));
+              })
+            )
+          ).pipe(takeUntil(dialogRef.afterClosed()));
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
-  onDrop(event: CdkDragDrop<any>) {
-    console.log({ event });
-    // if (event.previousContainer === event.container) {
-    //   moveItemInArray(
-    //     event.container.data,
-    //     event.previousIndex,
-    //     event.currentIndex
-    //   );
-    // } else {
-    //   transferArrayItem(
-    //     event.previousContainer.data,
-    //     event.container.data,
-    //     event.previousIndex,
-    //     event.currentIndex
-    //   );
-    // }
-  }
   onSelect(event: any) {
-    console.log({ event });
-    this.selctedNodes$.next(event);
+    this.selctedNodes.next(event);
   }
 
   handleClickNode(node: NgcxTreeNodeWrapper) {
-    this.selctedNode$.next(node);
+    this.selctedNode.next({ ...node });
   }
-  public handleCreateFolders() {
-    // TODO destroy
-    this.selctedNodes.pipe(take(1)).subscribe((selectedNode) => {
-      if (selectedNode) {
-        const newFolders = this._creationItemsService.createFolders(50);
-        this.nodes = this._creationItemsService.addItemsToNode(this.nodes, selectedNode.id, newFolders);
-      }
-    });
+  public handleCreateFolders(count: number = 50) {
+    combineLatest([this.selctedNodes$.pipe(take(1)), this.nodes$.pipe(take(1))])
+      .pipe(
+        map(([selectedNode, nodes]) => ({ selectedNode, nodes })),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(({ selectedNode, nodes }) => {
+        const newFolders = this._creationItemsService.createFolders(count);
+        this.nodes.next(this._creationItemsService.addItemsToNode(nodes, selectedNode.id, newFolders));
+      });
   }
 
   public handleCreateFiles(count: number = 50) {
-    // TODO destroy
-    this.selctedNodes.pipe(take(1)).subscribe((selectedNode) => {
-      if (selectedNode) {
+    combineLatest([this.selctedNodes$.pipe(take(1)), this.nodes$.pipe(take(1))])
+      .pipe(
+        map(([selectedNode, nodes]) => ({ selectedNode, nodes })),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(({ selectedNode, nodes }) => {
         const newFiles = this._creationItemsService.createFiles(count);
-        this.nodes = this._creationItemsService.addItemsToNode(this.nodes, selectedNode.id, newFiles);
-      }
-    });
+        this.nodes.next(this._creationItemsService.addItemsToNode(nodes, selectedNode.id, newFiles));
+      });
   }
 }

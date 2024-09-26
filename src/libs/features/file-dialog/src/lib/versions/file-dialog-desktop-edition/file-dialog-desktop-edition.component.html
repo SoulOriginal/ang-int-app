@@ -1,0 +1,51 @@
+<div class="flex flex-col p-4 size-full justify-between">
+    <div class="flex gap-3 flex-col">
+        <div>
+            <mat-form-field class=" apps-input w-full" appearance="outline">
+                <mat-icon matPrefix aria-hidden="false" class="mat-icon-44" fontIcon="edit"></mat-icon>
+                <input (input)="handleInputEvent($event)" matInput placeholder="Object Name..." [value]="title$ | async">
+            </mat-form-field>
+
+        </div>
+
+
+        <div class="grid grid-cols-3 gap-2 size-full">
+
+            @for (icon of matIconsList; track $index) {
+            <mat-icon (click)="handleSelectedIcon(icon)" class="text-[80px] !size-20 text-[#2587be] cursor-pointer hover:bg-slate-200 rounded-md" [fontIcon]="icon" />
+            }
+
+
+
+        </div>
+    </div>
+
+
+
+
+    <div class="flex flex-col gap-2 *:!flex *:!justify-start">
+        <button (click)="handleClickedOpen()" mat-stroked-button>
+            <mat-icon fontIcon="open_in_new" />
+            <span>
+                Open
+            </span>
+        </button>
+        <button mat-stroked-button (click)="openSnackBar()">
+            <mat-icon fontIcon="file_copy" />
+            Copy to clipboard
+        </button>
+        <button mat-stroked-button (click)="openSnackBar()">
+            <mat-icon fontIcon="delete" />
+            Delete Object
+        </button>
+        <button mat-stroked-button (click)="openSnackBar()">
+            <mat-icon fontIcon="share" />
+            Share Object
+        </button>
+        <button mat-stroked-button (click)="openSnackBar()">
+            <mat-icon fontIcon="content_cut" />
+            Cut Object
+        </button>
+    </div>
+
+</div>

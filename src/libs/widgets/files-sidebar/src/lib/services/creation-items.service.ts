@@ -3,13 +3,12 @@ import { NgcxTreeNode, NgcxTreeNodeWrapper } from '../models';
 
 @Injectable()
 export class CreationItemsService {
-  // Метод для создания новых папок
   createFolders(count: number): NgcxTreeNode[] {
     const folders: NgcxTreeNode[] = [];
     for (let i = 0; i < count; i++) {
       const folder: NgcxTreeNode = {
         id: this.generateId(),
-        title: `Folder ${i + 1}`,
+        title: `Folder Untitled ${i + 1}`,
         faIcon: 'folder',
         children: [],
       };
@@ -18,7 +17,6 @@ export class CreationItemsService {
     return folders;
   }
 
-  // Метод для создания новых файлов
   createFiles(count: number): NgcxTreeNode[] {
     const files: NgcxTreeNode[] = [];
     const fileTypes = ['pdf', 'png'];
@@ -27,7 +25,7 @@ export class CreationItemsService {
       const fileType = fileTypes[isPdf ? 0 : 1];
       const file: NgcxTreeNode = {
         id: this.generateId(),
-        title: `File ${i + 1}.${fileType}`,
+        title: `Untitled ${i + 1}.${fileType}`,
         faIcon: isPdf ? 'description' : 'image',
       };
       files.push(file);
@@ -35,25 +33,21 @@ export class CreationItemsService {
     return files;
   }
 
-  // Добавление элементов в ноду дерева
   addItemsToNode(nodes: NgcxTreeNode[], selectedNodeId: string, items: NgcxTreeNode[]): NgcxTreeNode[] {
-    // Рекурсивно ищем ноду, обновляем ее и возвращаем новое дерево
     return nodes.map((node) => {
       if (node.id === selectedNodeId) {
-        // Если это выбранная нода, добавляем элементы
         if (!node.children) {
           node.children = [];
         }
         node.children.push(...items);
-        return { ...node }; // Возвращаем обновленный узел
+        return { ...node };
       } else if (node.children) {
-        // Рекурсивно ищем в дочерних элементах
         return {
           ...node,
           children: this.addItemsToNode(node.children, selectedNodeId, items),
         };
       } else {
-        return node; // Если это не целевая нода, возвращаем её без изменений
+        return node;
       }
     });
   }
@@ -87,7 +81,25 @@ export class CreationItemsService {
     return wrapperNodes;
   }
 
-  // Метод для генерации уникальных ID
+  updateNodeProperties(nodes: NgcxTreeNode[], nodeId: string, newTitle: string, newFaIcon?: string): NgcxTreeNode[] {
+    return nodes.map((node) => {
+      if (node.id === nodeId) {
+        return {
+          ...node,
+          title: newTitle,
+          faIcon: newFaIcon,
+        };
+      } else if (node.children) {
+        return {
+          ...node,
+          children: this.updateNodeProperties(node.children, nodeId, newTitle, newFaIcon),
+        };
+      } else {
+        return node;
+      }
+    });
+  }
+
   private generateId(): string {
     return Math.random().toString(36).substr(2, 9);
   }

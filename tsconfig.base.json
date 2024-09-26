@@ -18,11 +18,11 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@apps/libs-shared-assets": [
-        "src/libs/shared/assets/src/index.ts"
+      "@apps/libs-shared-utils-services-blanking-snack-bar": [
+        "src/libs/shared/utils/services/blanking-snack-bar/src/index.ts"
       ],
-      "@apps/libs-widgets-files-sidebar": [
-        "src/libs/widgets/files-sidebar/src/index.ts"
+      "@apps/libs-features-file-dialog": [
+        "src/libs/features/file-dialog/src/index.ts"
       ],
       "@apps/libs-features-file-tree": [
         "src/libs/features/file-tree/src/index.ts"
@@ -30,18 +30,24 @@
       "@apps/libs-pages-index": [
         "src/libs/pages/index/src/index.ts"
       ],
+      "@apps/libs-shared-assets": [
+        "src/libs/shared/assets/src/index.ts"
+      ],
+      "@apps/libs-shared-core-svg-icons": [
+        "src/libs/shared/core/svg-icons/src/index.ts"
+      ],
       "@apps/libs-ui-file-tree-node": [
         "src/libs/ui/file-tree-node/src/index.ts"
+      ],
+      "@apps/libs-widgets-files-sidebar": [
+        "src/libs/widgets/files-sidebar/src/index.ts"
       ],
       "@apps/shared-tokens-screen-breakpoints": [
         "src/libs/shared/tokens/screen-breakpoints/src/index.ts"
       ],
       "@apps/shared-utils-services-screen-breakpoint-observer": [
         "src/libs/shared/utils/services/screen-breakpoint-observer/src/index.ts"
-      ],
-      "@apps/libs-shared-core-svg-icons": [
-        "src/libs/shared/core/svg-icons/src/index.ts"
-      ],
+      ]
     }
   },
   "exclude": [

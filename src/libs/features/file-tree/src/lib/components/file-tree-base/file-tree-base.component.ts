@@ -110,11 +110,7 @@ export class FileTreeBaseComponent implements AfterViewInit {
     this.treeControl.dataNodes = this.dataSource.data$.value;
   }
 
-  private createWrapperNodes(
-    nodes: NgcxTreeNode[],
-    parent?: NgcxTreeNodeWrapper<NgcxTreeNode>,
-    depth: number = 0
-  ): NgcxTreeNodeWrapper<NgcxTreeNode>[] {
+  private createWrapperNodes(nodes: NgcxTreeNode[], parent?: NgcxTreeNodeWrapper<NgcxTreeNode>, depth: number = 0): NgcxTreeNodeWrapper<NgcxTreeNode>[] {
     const childCount = nodes.length;
     const wrapperNodes = nodes.map((node, idx) => {
       const nodeWrapper: NgcxTreeNodeWrapper<NgcxTreeNode> = {
@@ -364,11 +360,7 @@ export class FileTreeBaseComponent implements AfterViewInit {
     this.updatedNodes.emit(this.treeControl.findNodeById(dropZoneInfo.nodeId));
   }
 
-  private findAddIndex(
-    dropZoneInfo: DropZoneInfo,
-    insertIntoNode: NgcxTreeNodeWrapper<NgcxTreeNode> | undefined,
-    insertIntoList: NgcxTreeNodeWrapper<NgcxTreeNode>[]
-  ) {
+  private findAddIndex(dropZoneInfo: DropZoneInfo, insertIntoNode: NgcxTreeNodeWrapper<NgcxTreeNode> | undefined, insertIntoList: NgcxTreeNodeWrapper<NgcxTreeNode>[]) {
     if (insertIntoNode && dropZoneInfo.dropType === DropType.DROP_INTO && !insertIntoNode.data.children) {
       insertIntoNode.data.children = [];
     }
@@ -395,7 +387,6 @@ export class FileTreeBaseComponent implements AfterViewInit {
       // this.selectedNode =
       //   nodeWrapper.id === this.selectedNode?.id ? undefined : nodeWrapper;
       this.selectNode(nodeWrapper);
-      this.selectEvent.emit(this.selectedNode);
     }
 
     if (this.treeControl.isExpanded(nodeWrapper)) {

@@ -1,8 +1,6 @@
 import { Provider } from '@angular/core';
-import {
-  ScreenBreakpoints,
-  SCREEN_BREAKPOINTS_TOKEN,
-} from '@apps/shared-tokens-screen-breakpoints';
+import { SharedUtilsServicesBlankingSnackBarModule } from '@apps/libs-shared-utils-services-blanking-snack-bar';
+import { SCREEN_BREAKPOINTS_TOKEN, ScreenBreakpoints } from '@apps/shared-tokens-screen-breakpoints';
 
 const screenBreakpoints: ScreenBreakpoints = {
   xs: ['(max-width:480px)'],
@@ -16,4 +14,4 @@ const SCREEN_BREAKPOINTS_TOKEN_PROVIDER: Provider = {
   useValue: screenBreakpoints,
 };
 
-export const APP_MODULE_PROVIDERS = [SCREEN_BREAKPOINTS_TOKEN_PROVIDER];
+export const APP_MODULE_PROVIDERS = [SCREEN_BREAKPOINTS_TOKEN_PROVIDER, SharedUtilsServicesBlankingSnackBarModule];
