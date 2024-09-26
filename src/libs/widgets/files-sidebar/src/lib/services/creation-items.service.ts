@@ -52,7 +52,7 @@ export class CreationItemsService {
     });
   }
 
-  createWrapperNodes(nodes: NgcxTreeNode[], parent?: NgcxTreeNodeWrapper, depth: number = 0): NgcxTreeNodeWrapper[] {
+  createWrapperNodes(nodes: NgcxTreeNode[], isSelectable: boolean = true, parent?: NgcxTreeNodeWrapper, depth: number = 0): NgcxTreeNodeWrapper[] {
     const childCount = nodes.length;
     const wrapperNodes = nodes.map((node, idx) => {
       const nodeWrapper: NgcxTreeNodeWrapper = {
@@ -60,12 +60,13 @@ export class CreationItemsService {
         data: <NgcxTreeNode>node,
         isFirstChild: idx === 0,
         isLastChild: idx === childCount - 1,
+        isSelectable,
         index: idx,
         parent: parent,
         depth: depth,
         children: [],
       };
-      nodeWrapper.children = node.children ? this.createWrapperNodes(node.children, nodeWrapper, depth + 1) : [];
+      nodeWrapper.children = node.children ? this.createWrapperNodes(node.children, isSelectable, nodeWrapper, depth + 1) : [];
 
       return nodeWrapper;
     });
@@ -76,12 +77,14 @@ export class CreationItemsService {
       if (!wrapperNode.isFirstChild) {
         wrapperNode.previous = wrapperNodes[wrapperNode.index - 1];
       }
-      wrapperNode.isSelectable = true;
+      wrapperNode.isSelectable = isSelectable;
     });
     return wrapperNodes;
   }
 
   updateNodeProperties(nodes: NgcxTreeNode[], nodeId: string, newTitle: string, newFaIcon?: string): NgcxTreeNode[] {
+    console.log({ newTitle, newFaIcon });
+
     return nodes.map((node) => {
       if (node.id === nodeId) {
         return {

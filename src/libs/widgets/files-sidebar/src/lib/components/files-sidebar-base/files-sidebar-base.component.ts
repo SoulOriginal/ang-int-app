@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FileDialogService } from '@apps/libs-features-file-dialog';
-import { BehaviorSubject, combineLatest, filter, map, merge, switchMap, take, takeUntil, tap, withLatestFrom } from 'rxjs';
+import { BehaviorSubject, combineLatest, filter, map, merge, switchMap, take, takeUntil, tap } from 'rxjs';
 import { tree } from '../../datas';
 import { NgcxTreeNode, NgcxTreeNodeWrapper } from '../../models';
 import { CreationItemsService } from '../../services';
@@ -36,6 +36,7 @@ export class FilesSidebarBaseComponent implements OnInit {
       id: 'bla-bla-bla',
       title: 'View All Objects',
       isFirstChild: false,
+      isSelectable: false,
       isLastChild: false,
       data: {
         id: 'bla-bla-bla',
@@ -44,16 +45,14 @@ export class FilesSidebarBaseComponent implements OnInit {
       },
       index: -1,
       depth: 0,
-      children: this._creationItemsService.createWrapperNodes(tree),
+      children: this._creationItemsService.createWrapperNodes(tree, false),
     };
 
     this.selctedNodes.next(getInitialTreeView);
 
     this.selctedNode$
       .pipe(
-        withLatestFrom(this.nodes$),
-        map(([selectedNode, nodes]) => ({ selectedNode, nodes })),
-        switchMap(({ selectedNode, nodes }) => {
+        switchMap((selectedNode) => {
           const dialogRef = this._fileDialogService.openDialog('lg');
           dialogRef.componentInstance.title = selectedNode.data.title;
           dialogRef.componentInstance.icon = selectedNode?.data?.faIcon ?? null;
@@ -67,13 +66,22 @@ export class FilesSidebarBaseComponent implements OnInit {
               })
             ),
             dialogRef.componentInstance.updateTitle.pipe(
-              tap((title) => {
+              switchMap((title) => {
+                return combineLatest([this.selctedNode$.pipe(take(1)), this.nodes$.pipe(take(1))]).pipe(map(([selectedNode, nodes]) => ({ title, selectedNode, nodes })));
+              }),
+              tap(({ title, selectedNode, nodes }) => {
+                console.log(title, selectedNode);
                 this.nodes.next(this._creationItemsService.updateNodeProperties(nodes, selectedNode.id, title, selectedNode?.data?.faIcon));
+                // dialogRef.close();
               })
             ),
             dialogRef.componentInstance.updateIcon.pipe(
-              tap((icon) => {
+              switchMap((icon) => {
+                return combineLatest([this.selctedNode$.pipe(take(1)), this.nodes$.pipe(take(1))]).pipe(map(([selectedNode, nodes]) => ({ icon, selectedNode, nodes })));
+              }),
+              tap(({ icon, selectedNode, nodes }) => {
                 this.nodes.next(this._creationItemsService.updateNodeProperties(nodes, selectedNode.id, selectedNode.data.title, icon));
+                dialogRef.close();
               })
             )
           ).pipe(takeUntil(dialogRef.afterClosed()));
@@ -87,8 +95,11 @@ export class FilesSidebarBaseComponent implements OnInit {
     this.selctedNodes.next(event);
   }
 
-  handleClickNode(node: NgcxTreeNodeWrapper) {
-    this.selctedNode.next({ ...node });
+  handleClickNode(node: NgcxTreeNodeWrapper, isSelectable: boolean = true) {
+    console.log(isSelectable);
+    if (isSelectable) {
+      this.selctedNode.next(node);
+    }
   }
   public handleCreateFolders(count: number = 50) {
     combineLatest([this.selctedNodes$.pipe(take(1)), this.nodes$.pipe(take(1))])

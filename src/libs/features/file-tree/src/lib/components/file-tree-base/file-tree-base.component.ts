@@ -93,7 +93,7 @@ export class FileTreeBaseComponent implements AfterViewInit {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['nodes']) {
       if (this.treeControl) {
-        console.time();
+        console.log('updateTree');
         // initialized already
         this.updateTree();
       }

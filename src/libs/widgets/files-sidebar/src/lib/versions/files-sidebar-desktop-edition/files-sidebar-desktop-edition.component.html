@@ -213,7 +213,7 @@
       <div class="flex gap-1 flex-col py-8">
         <div>
           <mat-icon aria-hidden="false" class="size-2" fontIcon="folder"></mat-icon>
-          <span class=" text-[27.73px] leading-[33.56px]">All files {{ (selctedNodes$ | async)?.data?.title }}</span>
+          <span class=" text-[27.73px] leading-[33.56px]"> {{ (selctedNodes$ | async)?.data?.title }}</span>
         </div>
         <div class="example-container bg-[#000000] size-full" cdkDropList>
           <div class="example-container bg-[#fff] size-full text-black" cdkDropListGroup>
@@ -222,7 +222,7 @@
                 <div class="grid grid-cols-7 gap-2  size-full" cdkDropList>
                   @if ((selctedNodes$ | async)) {
                   @for (node of (selctedNodes$ | async)?.children; track $index) {
-                  <div [ngClass]="{'bg-[#c4c6d3]': node.id === (selctedNode$ | async)?.id}" (click)="handleClickNode(node)" [id]="node.id + '_' + 'DROP_AFTER'"
+                  <div [ngClass]="{'bg-[#c4c6d3]': node.id === (selctedNode$ | async)?.id}" (click)="handleClickNode(node, node.isSelectable)" [id]="node.id + '_' + 'DROP_AFTER'"
                     cdkDrag [cdkDragData]="node"
                     class="cursor-pointer hover:bg-[#f5f5f5] rounded-lg ursor-pointer flex flex-col justify-center items-center gap-1">
                     <mat-icon class="text-[80px] !size-20 text-[#2587be]" [fontIcon]="node?.data?.faIcon ?? 'broken_image'"></mat-icon>
