@@ -9,6 +9,15 @@ module.exports = {
         asideBg: '#EAE8E7',
         borderColor: '#D3D1D0',
       },
+      fontSize: {
+        span: [
+          '7.08px',
+          {
+            fontWeight: '600',
+            lineHeight: '8.57px',
+          },
+        ],
+      },
     },
   },
   plugins: [],

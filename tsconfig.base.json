@@ -18,6 +18,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@apps/libs-shared-assets": [
+        "src/libs/shared/assets/src/index.ts"
+      ],
       "@apps/libs-widgets-files-sidebar": [
         "src/libs/widgets/files-sidebar/src/index.ts"
       ],
@@ -35,7 +38,10 @@
       ],
       "@apps/shared-utils-services-screen-breakpoint-observer": [
         "src/libs/shared/utils/services/screen-breakpoint-observer/src/index.ts"
-      ]
+      ],
+      "@apps/libs-shared-core-svg-icons": [
+        "src/libs/shared/core/svg-icons/src/index.ts"
+      ],
     }
   },
   "exclude": [

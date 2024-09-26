@@ -21,6 +21,11 @@
           {
             "glob": "**/*",
             "input": "public"
+          },
+          {
+            "input": "./src/libs/shared/assets/src/lib",
+            "glob": "**/*",
+            "output": "assets"
           }
         ],
         "styles": [
@@ -97,5 +102,6 @@
         "spa": true
       }
     }
-  }
+  },
+  "implicitDependencies": ["libs-shared-assets"]
 }

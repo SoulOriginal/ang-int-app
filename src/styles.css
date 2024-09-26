@@ -12,3 +12,9 @@ body {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.apps-input {
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    --mdc-filled-text-field-container-color: red;
+  }
+}

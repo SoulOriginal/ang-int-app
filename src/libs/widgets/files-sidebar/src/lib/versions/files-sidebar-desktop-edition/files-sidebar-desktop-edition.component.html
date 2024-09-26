@@ -1,54 +1,250 @@
-<div class="flex size-full">
+<div class="flex flex-col size-full">
   <!-- tmp div я тко флекс добавил -->
-
-  <div class="flex flex-col w-full max-w-[300px]">
-    <div class="w-full h-[50px] bg-headerBg"></div>
-    <div class="w-full bg-asideBg">
-      <h1 class="text-center py-5">Домашняя страница</h1>
-      <div class="border-b-2 bg-borderColor"></div>
-      <div class="flex justify-center items-center bg-lightColor gap-5">
-        <mat-icon aria-hidden="false" class="size-5" fontIcon="home"></mat-icon>
-        <span>Все файлыsss</span>
-      </div>
-      <h1 class="text-center py-5">Быстрый доступ</h1>
-      <div class="border-b-2 bg-borderColor"></div>
-
-      <div class="overflow-hidden">
-        <apps-file-tree class="max-h-full overflow-auto" size="lg" [nodes]="nodes" [config]="config" (selectEvent)="onSelect($event)"
-          (updatedNodes)="onSelect($event)" />
-
-      </div>
-
-
-      <div>
-        <button mat-button (click)="handleCreateFolders()"> Создать 50 папок</button>
-        <button mat-button (click)="handleCreateFiles()"> Создать 50 эл</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="size-full">
-    <div class="example-container bg-[#9b8686] size-full text-white" cdkDropListGroup>
-      <div class="grid grid-cols-3 gap-6 items-stretch size-full" cdkDropList (cdkDropListDropped)="onDrop($event)">
-        @if ((selctedNodes | async)) {
-        {{(selctedNodes | async)?.children?.length}}
-
-        @for (node of (selctedNodes | async)?.children; track $index) {
-
-
-        <div [id]="node.id + '_' + 'DROP_AFTER'" cdkDrag [cdkDragData]="node">
-          {{node.data.title}}
-          <mat-icon aria-hidden="false" class="size-5" fontIcon="folder"></mat-icon>
+  <div class="w-svw h-[50px] bg-headerBg"></div>
+  <div class="flex size-full">
+    <div class="flex flex-col w-full max-w-[300px]">
+      <div class="w-full bg-asideBg h-full">
+        <h1 class="text-center m-0 py-5">Homepage</h1>
+        <div class="border-b-2 border-borderColor"></div>
+        <div class="w-full flex flex-col items-center gap-1 py-5">
+          <button class="flex justify-starr items-center  gap-1 p-2 rounded-2xl w-[227px] bg-lightColor">
+            <mat-icon aria-hidden="false" class="size-2" fontIcon="home"></mat-icon>
+            <span class="text-sm leading-4">All files</span>
+          </button>
+          <button class="flex justify-starr items-center  gap-1 p-2 rounded-2xl w-[227px] hover:bg-lightColor transition-all duration-200">
+            <mat-icon aria-hidden="false" class="size-2" fontIcon="forward_to_inbox"></mat-icon>
+            <span class="text-sm leading-4">Sending the object</span>
+          </button>
+          <button class="flex justify-starr items-center  gap-1 p-2 rounded-2xl w-[227px] hover:bg-lightColor transition-all duration-200">
+            <mat-icon aria-hidden="false" class="size-2" fontIcon="delete"></mat-icon>
+            <span class="text-sm leading-4">Deleted files</span>
+          </button>
         </div>
-        }
-
-        }
-
+        <div class="border-b-2 border-borderColor"></div>
+        <h1 class="text-center py-5">Quick access</h1>
+        <div class="border-b-2 border-borderColor"></div>
+        <div class="p-8 min-h-[350px] text-center">
+          <apps-file-tree size="lg" [nodes]="nodes" [config]="config" (selectEvent)="onSelect($event)" (updatedNodes)="onSelect($event)"  /> 
+        </div>
+        <div class="border-b-2 border-borderColor"></div>
+        <div class="w-full flex flex-col items-center gap-1 py-5 align-bottom h-stretch">
+          <button class=" flex justify-starr items-center  gap-1 p-2 rounded-2xl w-[227px] hover:bg-lightColor transition-all duration-200">
+            <mat-icon aria-hidden="false" class="size-2" fontIcon="add_circle"></mat-icon>
+            <span class="text-sm leading-4">Create 50 elements</span>
+          </button>
+          <button class="flex justify-starr items-center  gap-1 p-2 rounded-2xl w-[227px] hover:bg-lightColor transition-all duration-200">
+            <mat-icon aria-hidden="false" class="size-2" fontIcon="create_new_folder"></mat-icon>
+            <span class="text-sm leading-4">Create 50 folders</span>
+          </button>
+        </div>
+        
+        <div class="border-b-2 border-borderColor"></div>
+        <div class="inline-flex  py-5 gap-6 justify-start  px-8">
+          <button class="flex flex-col items-center justify-center">
+            <mat-icon aria-hidden="false" class="size-2" fontIcon="reply"></mat-icon>
+            <span>Back</span>
+          </button>
+          <button class="flex flex-col items-center justify-center ">
+            <mat-icon aria-hidden="false" class="size-2 transform scale-x-[-1]" fontIcon="reply"></mat-icon>
+            <span>Go ahead</span>
+          </button>
+        </div>
+        
+        
       </div>
-
-
-
-
     </div>
+  
+    <div class="size-full flex flex-col px-8 py-5">
+  
+          <div class="flex gap-1 items-center">
+            
+            <mat-form-field class="!rounded-xl apps-input">
+              <mat-icon matPrefix aria-hidden="false"  class="mat-icon-44" fontIcon="imagesmode"></mat-icon>
+              <input matInput placeholder="Ex. Pizza" value="Sushi" >
+            </mat-form-field>
+            
+            <div class="flex gap-4 ml-4 items-center">
+              <mat-icon aria-hidden="false" class="size-2" fontIcon="imagesmode"></mat-icon>
+              <mat-icon aria-hidden="false" class="size-2" fontIcon="tune"></mat-icon>
+              <mat-icon aria-hidden="false" class="size-3" fontIcon="settings"></mat-icon>
+              <button mat-button [matMenuTriggerFor]="menu"><mat-icon aria-hidden="false" class="size-2" fontIcon="help"></mat-icon>
+              </button>
+            </div>
+            
+            
+            <mat-menu #menu="matMenu" yPosition="above" class="!rounded-[10px] !w-[215px] !h-[250px]">
+              <div class="flex flex-col items-center">
+                <h1 class="text-center !font-semibold	 !text-sm">Hotkeys</h1>
+                <div class="flex flex-col gap-2">
+                  <div class="*:flex *:justify-center *:items-center flex gap-[5px] ">
+                    <div class="*:flex *:justify-center *:items-center flex gap-1 ">
+                      <div class="border border-black rounded-lg px-2 py-1 ">
+                        <span class="text-span">CTRL</span>
+                      </div>
+                      <div class="border border-black rounded-lg px-3 py-1 ">
+                        <span class="text-span">Z</span>
+                      </div>
+                    </div>
+                    <div class="">
+                      <div class="border border-black h-[2px] w-[2px] rounded-full">
+                      </div>
+                    </div>
+                    <div class="">
+                      <span class="text-[7px] leading-3 font-normal">Go back</span>
+                    </div>
+                  </div>
+                  <div class="*:flex *:justify-center *:items-center flex gap-[5px] ">
+                    <div class="*:flex *:justify-center *:items-center flex gap-1 ">
+                      <div class="border border-black rounded-lg px-2 py-1 ">
+                        <span class="text-span">CTRL</span>
+                      </div>
+                      <div class="border border-black rounded-lg px-3 py-1 ">
+                        <span class="text-span">C</span>
+                      </div>
+                    </div>
+                    <div class="">
+                      <div class="border border-black h-[2px] w-[2px] rounded-full">
+                      </div>
+                    </div>
+                    <div class="">
+                      <span class="text-[7px] leading-3 font-normal">copy an object</span>
+                    </div>
+                  </div>
+                  <div class="*:flex *:justify-center *:items-center flex gap-[5px] ">
+                    <div class="*:flex *:justify-center *:items-center flex gap-1 ">
+                      <div class="border border-black rounded-lg px-2 py-1 ">
+                        <span class="text-span">CTRL</span>
+                      </div>
+                      <div class="border border-black rounded-lg px-3 py-1 ">
+                        <span class="text-span">V</span>
+                      </div>
+                    </div>
+                    <div class="">
+                      <div class="border border-black h-[2px] w-[2px] rounded-full">
+                      </div>
+                    </div>
+                    <div class="">
+                      <span class="text-[7px] leading-3 font-normal">Insert object</span>
+                    </div>
+                  </div>
+                  <div class="*:flex *:justify-center *:items-center flex gap-[5px] ">
+                    <div class="*:flex *:justify-center *:items-center flex gap-1 ">
+                      <div class="border border-black rounded-lg px-2 py-1 ">
+                        <span class="text-span">CTRL</span>
+                      </div>
+                      <div class="border border-black rounded-lg px-3 py-1 ">
+                        <span class="text-span">G</span>
+                      </div>
+                    </div>
+                    <div class="">
+                      <div class="border border-black h-[2px] w-[2px] rounded-full">
+                      </div>
+                    </div>
+                    <div class="">
+                      <span class="text-[7px] leading-3 font-normal">Merge object into a folder</span>
+                    </div>
+                  </div>
+                  <div class="*:flex *:justify-center *:items-center flex gap-[5px] ">
+                    <div class="*:flex *:justify-center *:items-center flex gap-1 ">
+                      <div class="border border-black rounded-lg px-2 py-1 ">
+                        <span class="text-span">DEL</span>
+                      </div>
+                     
+                    </div>
+                    <div class="">
+                      <div class="border border-black h-[2px] w-[2px] rounded-full">
+                      </div>
+                    </div>
+                    <div class="">
+                      <span class="text-[7px] leading-3 font-normal">delete the object</span>
+                    </div>
+                  </div>
+                  <div class="*:flex *:justify-center *:items-center flex gap-[5px]">
+                    <div class="*:flex *:justify-center flex gap-1 *:items-center">
+                      
+                      <div class="border border-black rounded-lg px-2 ">
+                        <mat-icon aria-hidden="true" class="!size-4 !text-[16px]" fontIcon="arrow_right_alt"></mat-icon>
+                      </div>
+                    </div>
+                    <div class="">
+                      <div class="border border-black h-[2px] w-[2px] rounded-full">
+                      </div>
+                    </div>
+                    <div class="">
+                      <span class="text-[7px] leading-3 font-normal">Open object</span>
+                    </div>
+                  </div>
+                  <div class="*:flex *:justify-center *:items-center flex gap-[5px]">
+                    <div class="*:flex *:justify-center flex gap-1 *:items-center">
+                      <div class="border border-black rounded-lg px-2 ">
+                        <mat-icon aria-hidden="true" class="!size-4 !text-[16px]  transform scale-x-[-1]" fontIcon="arrow_right_alt"></mat-icon>
+                      </div>
+                    </div>
+                    <div class="">
+                      <div class="border border-black h-[2px] w-[2px] rounded-full">
+                      </div>
+                    </div>
+                    <div class="">
+                      <span class="text-[7px] leading-3 font-normal">close the object</span>
+                    </div>
+                  </div>
+                  
+                 
+                  
+                </div>
+                
+                
+              </div>
+            </mat-menu>
+          </div>
+          <div class="flex py-5 gap-4">
+            <button class=" flex flex-col p-3 bg-black rounded-xl">
+              <mat-icon aria-hidden="false" class="size-2 text-lightColor" fontIcon="add_circle"></mat-icon>
+              <span class="text-lightColor">Create the object</span>
+            </button>
+            <button class=" flex flex-col p-3 bg-lightColor rounded-xl border-2 border-black hover:bg-black transition-all duration-200 hover:text-lightColor gap-1">
+              <mat-icon aria-hidden="false" class="size-2 " fontIcon="download"></mat-icon>
+              <span class="">Download the object</span>
+            </button>
+            <button class=" flex flex-col p-3 bg-lightColor rounded-xl border-2 border-black hover:bg-black transition-all duration-200 hover:text-lightColor">
+              <mat-icon aria-hidden="false" class="size-2 " fontIcon="create_new_folder"></mat-icon>
+              <span class="">Create a folder</span>
+            </button>
+          </div>
+          <div class="flex gap-1 flex-col py-8">
+            <div class="">
+              <mat-icon aria-hidden="false" class="size-2" fontIcon="folder"></mat-icon>
+              <span class=" text-[27.73px] leading-[33.56px]">All files</span>
+            </div>
+            <div class="example-container bg-[#000000] size-full" cdkDropList (cdkDropListDropped)="onDrop($event)">
+              <div class="example-container bg-[#fff] size-full text-black" cdkDropListGroup>
+                <div class="grid grid-cols-7 gap-2  size-full" cdkDropList (cdkDropListDropped)="onDrop($event)">
+                  @if ((selctedNodes | async)) {
+                    @for (node of (selctedNodes | async)?.children; track $index) {
+                     <div [id]="node.id + '_' + 'DROP_AFTER'" cdkDrag [cdkDragData]="node" class="flex items-center flex-col  hover:bg-[#f5f5f5] transition-all duration-200 cursor-pointer	">
+                        <mat-icon aria-hidden="false" class=" " svgIcon="apps-folder"></mat-icon>
+                        <span class="text-center text-xl">{{node.data.title}}</span>
+                     </div>
+                    }
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="flex gap-1 py-8">
+            <mat-icon aria-hidden="false" class="size-2" fontIcon="undo"></mat-icon>
+            <span class=" text-[27.73px] leading-[33.56px]">Recent</span>
+          </div>
+          <div class="flex gap-4">
+            <button class="px-5 py-2 bg-black text-lightColor rounded-[20px]">All files</button>
+            <button class="px-5 py-2 bg-lightColor text-black border-2 border-black rounded-[20px] hover:bg-black transition-all duration-200 hover:text-lightColor">Документы</button>
+            <button class="px-5 py-2 bg-lightColor text-black border-2 border-black rounded-[20px] hover:bg-black transition-all duration-200 hover:text-lightColor">Изображения</button>
+          </div>
+      </div>
   </div>
+
 </div>
+
+
+

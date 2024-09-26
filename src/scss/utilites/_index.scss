@@ -1,0 +1,4 @@
+@use 'mat-icon-size';
+@mixin apps-utilites {
+  @include mat-icon-size.output();
+}
