@@ -28,11 +28,12 @@
         </div>
         <div class="border-b-2 border-borderColor"></div>
         <div class="w-full flex flex-col items-center gap-1 py-5 align-bottom h-stretch">
-          <button class=" flex justify-starr items-center  gap-1 p-2 rounded-2xl w-[227px] hover:bg-lightColor transition-all duration-200">
+          <button (click)="handleCreateFiles()" class=" flex justify-starr items-center  gap-1 p-2 rounded-2xl w-[227px] hover:bg-lightColor transition-all duration-200">
             <mat-icon aria-hidden="false" class="size-2" fontIcon="add_circle"></mat-icon>
             <span class="text-sm leading-4">Create 50 elements</span>
           </button>
-          <button class="flex justify-starr items-center  gap-1 p-2 rounded-2xl w-[227px] hover:bg-lightColor transition-all duration-200">
+          <button (click)="handleCreateFolders()"
+            class="flex justify-starr items-center  gap-1 p-2 rounded-2xl w-[227px] hover:bg-lightColor transition-all duration-200">
             <mat-icon aria-hidden="false" class="size-2" fontIcon="create_new_folder"></mat-icon>
             <span class="text-sm leading-4">Create 50 folders</span>
           </button>
@@ -202,17 +203,19 @@
           <mat-icon aria-hidden="false" class="size-2 text-lightColor" fontIcon="add_circle"></mat-icon>
           <span class="text-lightColor">Create the object</span>
         </button>
-        <button class=" flex flex-col p-3 bg-lightColor rounded-xl border-2 border-black hover:bg-black transition-all duration-200 hover:text-lightColor gap-1">
+        <button
+          class="flex flex-col p-3 bg-lightColor rounded-xl border-2 border-black hover:bg-black transition-all duration-200 hover:text-lightColor gap-1">
           <mat-icon aria-hidden="false" class="size-2 " fontIcon="download"></mat-icon>
-          <span class="">Download the object</span>
+          <span>Download the object</span>
         </button>
-        <button class=" flex flex-col p-3 bg-lightColor rounded-xl border-2 border-black hover:bg-black transition-all duration-200 hover:text-lightColor">
+        <button
+          class="flex flex-col p-3 bg-lightColor rounded-xl border-2 border-black hover:bg-black transition-all duration-200 hover:text-lightColor">
           <mat-icon aria-hidden="false" class="size-2 " fontIcon="create_new_folder"></mat-icon>
-          <span class="">Create a folder</span>
+          <span>Create a folder</span>
         </button>
       </div>
       <div class="flex gap-1 flex-col py-8">
-        <div class="">
+        <div>
           <mat-icon aria-hidden="false" class="size-2" fontIcon="folder"></mat-icon>
           <span class=" text-[27.73px] leading-[33.56px]">All files</span>
         </div>
