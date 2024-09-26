@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FileDialogBaseComponent } from '../../components/file-dialog-base/file-dialog-base.component';
 
 @Component({
-  selector: 'baranka-file-dialog-mobile-edition',
+  selector: 'apps-file-dialog-mobile-edition',
   standalone: true,
   templateUrl: './file-dialog-mobile-edition.component.html',
   imports: [CommonModule],

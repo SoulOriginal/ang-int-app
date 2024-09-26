@@ -3,7 +3,7 @@ import { BlankingSnackBarService } from '@apps/libs-shared-utils-services-blanki
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'baranka-file-dialog-base',
+  selector: 'apps-file-dialog-base',
   standalone: true,
   template: '',
 })
@@ -32,8 +32,6 @@ export class FileDialogBaseComponent {
   public readonly updateTitle = new EventEmitter<string>();
   @Output()
   public readonly openEvent = new EventEmitter<void>();
-
-
 
   public handleClickedOpen() {
     this.openEvent.emit();

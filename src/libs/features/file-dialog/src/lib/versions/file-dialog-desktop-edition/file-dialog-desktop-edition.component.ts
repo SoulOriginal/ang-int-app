@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FileDialogBaseComponent } from '../../components/file-dialog-base/file-dialog-base.component';
 
 @Component({
-  selector: 'baranka-file-dialog-desktop-edition',
+  selector: 'apps-file-dialog-desktop-edition',
   standalone: true,
   templateUrl: './file-dialog-desktop-edition.component.html',
   imports: [CommonModule, MatInputModule, MatIconModule, MatButtonModule],

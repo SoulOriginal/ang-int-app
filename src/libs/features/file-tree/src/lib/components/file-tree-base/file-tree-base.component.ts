@@ -302,6 +302,15 @@ export class FileTreeBaseComponent implements AfterViewInit {
   }
 
   private handleDragReleaseInternal(event: CdkDragRelease<NgcxTreeNodeWrapper<NgcxTreeNode>>) {
+    function cloneNodeWithNewId(node: NgcxTreeNode): NgcxTreeNode {
+      console.log('cloneNodeWithNewId');
+      return {
+        ...node,
+        id: Math.random().toString(36).substr(2, 9),
+        children: node.children?.map(cloneNodeWithNewId) ?? [],
+      };
+    }
+
     const movedNode = event.source.data;
     const target = <HTMLDivElement>event.event.target;
     const dropZoneId = target.id ?? target.parentElement?.id;
@@ -334,14 +343,13 @@ export class FileTreeBaseComponent implements AfterViewInit {
     const wrapperList = insertIntoNode?.children ?? this.dataSource.data$.value;
     const addAtNodeIdx = this.findAddIndex(dropZoneInfo, insertIntoNode, wrapperList);
 
-    console.log(this.isHoldingShift);
+    const newNode = this.isHoldingShift ? cloneNodeWithNewId(movedNode.data) : movedNode.data;
 
     const removedFromIdx = this.isHoldingShift ? -1 : this.removeElementFromPreviousPosition(movedNode);
-    // add element to new Position, subtract one if inserted in same list after the remove position
     (insertIntoNode?.data.children ?? this.nodes!).splice(
       movedNode.parent?.id === insertIntoNode?.id && removedFromIdx < addAtNodeIdx ? addAtNodeIdx - 1 : addAtNodeIdx,
       0,
-      movedNode.data
+      newNode
     );
 
     const afterNodeIdx = addAtNodeIdx - 1;

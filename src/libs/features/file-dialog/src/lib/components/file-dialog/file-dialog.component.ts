@@ -6,13 +6,13 @@ import { FileDialogDesktopEditionComponent } from '../../versions/file-dialog-de
 import { FileDialogMobileEditionComponent } from '../../versions/file-dialog-mobile-edition/file-dialog-mobile-edition.component';
 
 @Component({
-  selector: 'baranka-file-dialog',
+  selector: 'apps-file-dialog',
   standalone: true,
   imports: [CommonModule, FileDialogDesktopEditionComponent, FileDialogMobileEditionComponent],
   providers: [],
   template: `
     @if ((size$ | async) === 'lg') {
-    <baranka-file-dialog-desktop-edition
+    <apps-file-dialog-desktop-edition
       class="size-full overflow-hidden"
       [title]="title$ | async"
       [icon]="icon$ | async"
@@ -21,7 +21,7 @@ import { FileDialogMobileEditionComponent } from '../../versions/file-dialog-mob
       (openEvent)="openEvent.emit($event)"
     />
     } @else {
-    <baranka-file-dialog-mobile-edition></baranka-file-dialog-mobile-edition>
+    <apps-file-dialog-mobile-edition></apps-file-dialog-mobile-edition>
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
