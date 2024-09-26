@@ -4,9 +4,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CdkDrag, CdkDropList, CdkDropListGroup } from '@angular/cdk/drag-drop';
 import { MatInputModule } from '@angular/material/input';
 
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatButtonModule } from '@angular/material/button';
 import { FileTreeComponent } from '@apps/libs-features-file-tree';
 import { FilesSidebarBaseComponent } from '../../components/files-sidebar-base/files-sidebar-base.component';
 
