@@ -13,6 +13,9 @@ export class FilesSidebarBaseComponent implements OnInit {
   private selctedNodes$ = new BehaviorSubject<NgcxTreeNodeWrapper | null>(null);
   public selctedNodes = this.selctedNodes$.pipe(filter(Boolean));
 
+  private selctedNode$ = new BehaviorSubject<NgcxTreeNodeWrapper | null>(null);
+  public selctedNode = this.selctedNode$.pipe(filter(Boolean));
+
   private _creationItemsService = inject(CreationItemsService);
 
   public nodes: NgcxTreeNode[] = [
@@ -211,6 +214,9 @@ export class FilesSidebarBaseComponent implements OnInit {
     this.selctedNodes$.next(event);
   }
 
+  handleClickNode(node: NgcxTreeNodeWrapper) {
+    this.selctedNode$.next(node);
+  }
   public handleCreateFolders() {
     // TODO destroy
     this.selctedNodes.pipe(take(1)).subscribe((selectedNode) => {
@@ -220,11 +226,12 @@ export class FilesSidebarBaseComponent implements OnInit {
       }
     });
   }
-  public handleCreateFiles() {
+
+  public handleCreateFiles(count: number = 50) {
     // TODO destroy
     this.selctedNodes.pipe(take(1)).subscribe((selectedNode) => {
       if (selectedNode) {
-        const newFiles = this._creationItemsService.createFiles(50);
+        const newFiles = this._creationItemsService.createFiles(count);
         this.nodes = this._creationItemsService.addItemsToNode(this.nodes, selectedNode.id, newFiles);
       }
     });

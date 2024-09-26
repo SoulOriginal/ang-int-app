@@ -47,6 +47,7 @@
         </div>
 
 
+
       </div>
     </div>
 
@@ -54,17 +55,16 @@
 
       <div class="flex gap-1 items-center">
 
-        <mat-form-field class="!rounded-xl apps-input">
-          <mat-icon matPrefix aria-hidden="false" class="mat-icon-44" fontIcon="imagesmode"></mat-icon>
-          <input matInput placeholder="Ex. Pizza" value="Sushi">
+        <mat-form-field class=" apps-input w-full" appearance="outline">
+          <mat-icon matPrefix aria-hidden="false" class="mat-icon-44" fontIcon="search"></mat-icon>
+          <input matInput placeholder="Search..." value="Sushi">
         </mat-form-field>
 
-        <div class="flex gap-4 ml-4 items-center">
+        <div class="flex gap-4 ml-4 *:items-center ">
           <mat-icon aria-hidden="false" class="size-2" fontIcon="imagesmode"></mat-icon>
           <mat-icon aria-hidden="false" class="size-2" fontIcon="tune"></mat-icon>
-          <mat-icon aria-hidden="false" class="size-3" fontIcon="settings"></mat-icon>
-          <button mat-button [matMenuTriggerFor]="menu"><mat-icon aria-hidden="false" class="size-2" fontIcon="help"></mat-icon>
-          </button>
+          <mat-icon aria-hidden="false" class="size-2" fontIcon="settings"></mat-icon>
+          <button [matMenuTriggerFor]="menu"><mat-icon aria-hidden="false" class="size-2" fontIcon="help" /></button>
         </div>
 
 
@@ -194,7 +194,7 @@
         </mat-menu>
       </div>
       <div class="flex py-5 gap-4">
-        <button class=" flex flex-col p-3 bg-black rounded-xl">
+        <button (click)="handleCreateFiles(1)" class=" flex flex-col p-3 bg-black rounded-xl">
           <mat-icon aria-hidden="false" class="size-2 text-lightColor" fontIcon="add_circle"></mat-icon>
           <span class="text-lightColor">Create the object</span>
         </button>
@@ -212,36 +212,28 @@
       <div class="flex gap-1 flex-col py-8">
         <div>
           <mat-icon aria-hidden="false" class="size-2" fontIcon="folder"></mat-icon>
-          <span class=" text-[27.73px] leading-[33.56px]">All files</span>
+          <span class=" text-[27.73px] leading-[33.56px]">All files {{ (selctedNodes | async)?.data?.title }}</span>
         </div>
         <div class="example-container bg-[#000000] size-full" cdkDropList (cdkDropListDropped)="onDrop($event)">
-          <div class=" bg-[#fff] size-full text-black" cdkDropListGroup>
-            <div class="grid grid-cols-7 gap-2  size-full" cdkDropList (cdkDropListDropped)="onDrop($event)">
-              @if ((selctedNodes | async)) {
-              @for (node of (selctedNodes | async)?.children; track $index) {
-              <div [id]="node.id + '_' + 'DROP_AFTER'" cdkDrag [cdkDragData]="node" class="hover:bg-[#f5f5f5] rounded-lg ursor-pointer flex flex-col justify-center items-center gap-1">
-                <mat-icon class="text-[80px] !size-20 text-[#2587be]" [fontIcon]="node?.data?.faIcon ?? 'broken_image'"></mat-icon>
-                <span class="text-center text-sm">{{node.data.title}}</span>
+          <div class="example-container bg-[#fff] size-full text-black" cdkDropListGroup>
+            <div class="example-container bg-[#000000] size-full" cdkDropList (cdkDropListDropped)="onDrop($event)">
+              <div class=" bg-[#fff] size-full text-black" cdkDropListGroup>
+                <div class="grid grid-cols-7 gap-2  size-full" cdkDropList (cdkDropListDropped)="onDrop($event)">
+                  @if ((selctedNodes | async)) {
+                  @for (node of (selctedNodes | async)?.children; track $index) {
+                  <div [ngClass]="{'bg-[#c4c6d3]': node.id === (selctedNode | async)?.id}" (dblclick)="onSelect(node)" (click)="handleClickNode(node)" [id]="node.id + '_' + 'DROP_AFTER'"
+                    cdkDrag [cdkDragData]="node"
+                    class="cursor-pointer hover:bg-[#f5f5f5] rounded-lg ursor-pointer flex flex-col justify-center items-center gap-1">
+                    <mat-icon class="text-[80px] !size-20 text-[#2587be]" [fontIcon]="node?.data?.faIcon ?? 'broken_image'"></mat-icon>
+                    <span class="text-center text-sm">{{node.data.title}}</span>
+                  </div>
+                  }
+                  }
+                </div>
               </div>
-              }
-              }
             </div>
           </div>
         </div>
       </div>
 
-      <div class="flex gap-1 py-8">
-        <mat-icon aria-hidden="false" class="size-2" fontIcon="undo"></mat-icon>
-        <span class=" text-[27.73px] leading-[33.56px]">Recent</span>
-      </div>
-      <div class="flex gap-4">
-        <button class="px-5 py-2 bg-black text-lightColor rounded-[20px]">All files</button>
-        <button
-          class="px-5 py-2 bg-lightColor text-black border-2 border-black rounded-[20px] hover:bg-black transition-all duration-200 hover:text-lightColor">Документы</button>
-        <button
-          class="px-5 py-2 bg-lightColor text-black border-2 border-black rounded-[20px] hover:bg-black transition-all duration-200 hover:text-lightColor">Изображения</button>
-      </div>
     </div>
-  </div>
-
-</div>
