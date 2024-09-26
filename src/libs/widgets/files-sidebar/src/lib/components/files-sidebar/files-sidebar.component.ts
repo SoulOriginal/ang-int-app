@@ -9,11 +9,7 @@ import { FilesSidebarMobileEditionComponent } from '../../versions/files-sidebar
 @Component({
   selector: 'apps-files-sidebar',
   standalone: true,
-  imports: [
-    CommonModule,
-    FilesSidebarDesktopEditionComponent,
-    FilesSidebarMobileEditionComponent,
-  ],
+  imports: [CommonModule, FilesSidebarDesktopEditionComponent, FilesSidebarMobileEditionComponent],
   providers: [CreationItemsService],
   template: `
     @if ((size$ | async) === 'lg') {

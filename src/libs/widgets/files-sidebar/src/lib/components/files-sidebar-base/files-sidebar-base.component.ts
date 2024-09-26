@@ -97,11 +97,7 @@ export class FilesSidebarBaseComponent {
     this.selctedNodes.pipe(take(1)).subscribe((selectedNode) => {
       if (selectedNode) {
         const newFolders = this._creationItemsService.createFolders(50);
-        this.nodes = this._creationItemsService.addItemsToNode(
-          this.nodes,
-          selectedNode.id,
-          newFolders
-        );
+        this.nodes = this._creationItemsService.addItemsToNode(this.nodes, selectedNode.id, newFolders);
       }
     });
   }
@@ -110,11 +106,7 @@ export class FilesSidebarBaseComponent {
     this.selctedNodes.pipe(take(1)).subscribe((selectedNode) => {
       if (selectedNode) {
         const newFiles = this._creationItemsService.createFiles(50);
-        this.nodes = this._creationItemsService.addItemsToNode(
-          this.nodes,
-          selectedNode.id,
-          newFiles
-        );
+        this.nodes = this._creationItemsService.addItemsToNode(this.nodes, selectedNode.id, newFiles);
       }
     });
   }
