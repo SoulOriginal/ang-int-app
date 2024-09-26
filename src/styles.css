@@ -18,3 +18,9 @@ body {
     --mdc-filled-text-field-container-color: red;
   }
 }
+
+/*  */
+
+.mat-typography h1 {
+  margin: 0;
+}
