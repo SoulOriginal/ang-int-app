@@ -1,7 +1,8 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { Component } from '@angular/core';
-import { BehaviorSubject, filter } from 'rxjs';
-import { NgcxTreeNodeWrapper } from '../../models';
+import { Component, inject } from '@angular/core';
+import { BehaviorSubject, filter, take } from 'rxjs';
+import { NgcxTreeNode, NgcxTreeNodeWrapper } from '../../models';
+import { CreationItemsService } from '../../services';
 
 @Component({
   selector: 'apps-files-sidebar-base',
@@ -12,7 +13,9 @@ export class FilesSidebarBaseComponent {
   private selctedNodes$ = new BehaviorSubject<NgcxTreeNodeWrapper | null>(null);
   public selctedNodes = this.selctedNodes$.pipe(filter(Boolean));
 
-  nodes = [
+  private _creationItemsService = inject(CreationItemsService);
+
+  public nodes: NgcxTreeNode[] = [
     {
       id: 'favorites',
       title: 'Favorites',
@@ -61,165 +64,11 @@ export class FilesSidebarBaseComponent {
         },
       ],
     },
-    {
-      id: 'documents',
-      title: 'Documents',
-      children: [
-        {
-          id: 'reports',
-          title: 'Reports',
-          faIcon: 'fa-file-word',
-          children: [
-            {
-              id: 'annual_report',
-              title: 'Annual Report.docx',
-              faIcon: 'fa-file-word',
-            },
-            {
-              id: 'summary',
-              title: 'Summary.pdf',
-              faIcon: 'fa-file-pdf',
-            },
-          ],
-        },
-        {
-          id: 'invoices',
-          title: 'Invoices',
-          faIcon: 'fa-file-invoice-dollar',
-          children: [
-            {
-              id: 'invoice_jan',
-              title: 'Invoice_Jan.pdf',
-              faIcon: 'fa-file-pdf',
-            },
-            {
-              id: 'invoice_feb',
-              title: 'Invoice_Feb.pdf',
-              faIcon: 'fa-file-pdf',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: 'pictures',
-      title: 'Pictures',
-      children: [
-        {
-          id: 'vacation',
-          title: 'Vacation',
-          faIcon: 'fa-folder',
-          children: [
-            {
-              id: 'beach',
-              title: 'Beach.png',
-              faIcon: 'fa-file-image',
-            },
-            {
-              id: 'mountains',
-              title: 'Mountains.jpg',
-              faIcon: 'fa-file-image',
-            },
-          ],
-        },
-        {
-          id: 'family',
-          title: 'Family',
-          faIcon: 'fa-folder',
-          children: [
-            {
-              id: 'family_photo',
-              title: 'FamilyPhoto.jpg',
-              faIcon: 'fa-file-image',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: 'videos',
-      title: 'Videos',
-      children: [
-        {
-          id: 'movies',
-          title: 'Movies',
-          faIcon: 'fa-film',
-          children: [
-            {
-              id: 'movie1',
-              title: 'Movie1.mp4',
-              faIcon: 'fa-file-video',
-            },
-            {
-              id: 'movie2',
-              title: 'Movie2.mp4',
-              faIcon: 'fa-file-video',
-            },
-          ],
-        },
-        {
-          id: 'tutorials',
-          title: 'Tutorials',
-          faIcon: 'fa-graduation-cap',
-          children: [
-            {
-              id: 'tutorial_js',
-              title: 'JavaScript_Tutorial.mp4',
-              faIcon: 'fa-file-video',
-            },
-            {
-              id: 'tutorial_ts',
-              title: 'TypeScript_Tutorial.mp4',
-              faIcon: 'fa-file-video',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: 'music',
-      title: 'Music',
-      children: [
-        {
-          id: 'pop',
-          title: 'Pop',
-          faIcon: 'fa-folder',
-          children: [
-            {
-              id: 'song1',
-              title: 'Song1.mp3',
-              faIcon: 'fa-file-audio',
-            },
-            {
-              id: 'song2',
-              title: 'Song2.mp3',
-              faIcon: 'fa-file-audio',
-            },
-          ],
-        },
-        {
-          id: 'rock',
-          title: 'Rock',
-          faIcon: 'fa-folder',
-          children: [
-            {
-              id: 'rock_song1',
-              title: 'Rock_Song1.mp3',
-              faIcon: 'fa-file-audio',
-            },
-          ],
-        },
-      ],
-    },
   ];
 
   config = {
     allowSelection: () => true,
   };
-
-  todo = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
-
-  done = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
 
   onDrop(event: CdkDragDrop<any>) {
     console.log({ event });
@@ -241,5 +90,32 @@ export class FilesSidebarBaseComponent {
   onSelect(event: any) {
     console.log({ event });
     this.selctedNodes$.next(event);
+  }
+
+  public handleCreateFolders() {
+    // TODO destroy
+    this.selctedNodes.pipe(take(1)).subscribe((selectedNode) => {
+      if (selectedNode) {
+        const newFolders = this._creationItemsService.createFolders(50);
+        this.nodes = this._creationItemsService.addItemsToNode(
+          this.nodes,
+          selectedNode.id,
+          newFolders
+        );
+      }
+    });
+  }
+  public handleCreateFiles() {
+    // TODO destroy
+    this.selctedNodes.pipe(take(1)).subscribe((selectedNode) => {
+      if (selectedNode) {
+        const newFiles = this._creationItemsService.createFiles(50);
+        this.nodes = this._creationItemsService.addItemsToNode(
+          this.nodes,
+          selectedNode.id,
+          newFiles
+        );
+      }
+    });
   }
 }

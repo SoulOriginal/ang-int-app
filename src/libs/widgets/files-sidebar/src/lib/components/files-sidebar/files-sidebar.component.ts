@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
+import { CreationItemsService } from '../../services';
 import { FilesSidebarDesktopEditionComponent } from '../../versions/files-sidebar-desktop-edition/files-sidebar-desktop-edition.component';
 import { FilesSidebarMobileEditionComponent } from '../../versions/files-sidebar-mobile-edition/files-sidebar-mobile-edition.component';
 
@@ -13,7 +14,7 @@ import { FilesSidebarMobileEditionComponent } from '../../versions/files-sidebar
     FilesSidebarDesktopEditionComponent,
     FilesSidebarMobileEditionComponent,
   ],
-  providers: [],
+  providers: [CreationItemsService],
   template: `
     @if ((size$ | async) === 'lg') {
     <apps-files-sidebar-desktop-edition></apps-files-sidebar-desktop-edition>

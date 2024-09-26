@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-
+import { MatButtonModule } from '@angular/material/button';
 import { FileTreeComponent } from '@apps/libs-features-file-tree';
 import { FilesSidebarBaseComponent } from '../../components/files-sidebar-base/files-sidebar-base.component';
 
