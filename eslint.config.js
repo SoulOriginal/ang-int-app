@@ -43,6 +43,8 @@ module.exports = [
         'error',
         { ignoredFiles: ['{projectRoot}/eslint.config.{js,cjs,mjs}'] },
       ],
+      'prettier/prettier': ['error', { printWidth: 150 }],
+      'max-len': ['error', 150],
     },
     languageOptions: { parser: require('jsonc-eslint-parser') },
   },

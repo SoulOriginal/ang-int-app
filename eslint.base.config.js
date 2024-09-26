@@ -25,6 +25,9 @@ module.exports = [
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
     // Override or add rules here
-    rules: {},
+    rules: {
+      'prettier/prettier': ['error', { printWidth: 150 }],
+      'max-len': ['error', 150],
+    },
   },
 ];

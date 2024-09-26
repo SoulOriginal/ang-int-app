@@ -6,6 +6,7 @@ import { CdkDrag, CdkDropList, CdkDropListGroup } from '@angular/cdk/drag-drop';
 import { FileTreeComponent } from '@apps/libs-features-file-tree';
 import { FilesSidebarBaseComponent } from '../../components/files-sidebar-base/files-sidebar-base.component';
 
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -20,6 +21,7 @@ import { MatIconModule } from '@angular/material/icon';
     CdkDrag,
     MatIconModule,
     AsyncPipe,
+    MatButtonModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -1,112 +1,116 @@
+<cdk-virtual-scroll-viewport itemSize="30" style="height: 600px;" [minBufferPx]="200"
+  [maxBufferPx]="400">
+  <cdk-tree
+    #tree
+    class="ngcx-tree"
+    [dataSource]="dataSource"
+    [treeControl]="treeControl"
+    cdkDropListGroup
+    *ngIf="dataSource"
+    [class.dragging]="dragging"
+    (keyup.arrowup)="keyDownArrowUp($event)"
+    (keydown.arrowdown)="keyDownArrowDown($event)"
+    (keydown.arrowleft)="keyDownArrowLeft($event)"
+    (keydown.arrowright)="keyDownArrowRight($event)"
+    (keydown.delete)="keyDownDelete($event)"
+    (scroll)="onScroll($event)"
+    tabindex="0">
 
-
-<cdk-tree
-  #tree
-  size="lg"
-  class="ngcx-tree"
-  [dataSource]="dataSource"
-  [treeControl]="treeControl"
-  cdkDropListGroup
-  *ngIf="dataSource"
-  [class.dragging]="dragging"
-  (keyup.arrowup)="keyDownArrowUp($event)"
-  (keydown.arrowdown)="keyDownArrowDown($event)"
-  (keydown.arrowleft)="keyDownArrowLeft($event)"
-  (keydown.arrowright)="keyDownArrowRight($event)"
-  (cdkDropListDropped)="onDrop()"
-  tabindex="0">
-  <cdk-nested-tree-node *cdkTreeNodeDef="let node" class="tree-node">
-    <div
-      *ngIf="allowDrop(node, DropType.DROP_AFTER) as dropControl"
-      cdkDropList
-      [id]="node.id + '_' + DropType.DROP_AFTER"
-      class="tree-node-container-drop-zone after-expanded-node"
-      [class.hide]="dropControl.hideDrop || !treeControl.isExpanded(node)"
-      [class.no-drop]="dropControl.preventDrop">
-      <div class="drop-insert-line"></div>
-      <div *ngIf="dropControl.preventDropReason" class="tooltip">
-        {{ dropControl.preventDropReason }}
-      </div>
-    </div>
-    <div class="tree-node-container">
-      <div
-        *ngIf="allowDrop(node, DropType.DROP_BEFORE) as dropControl"
-        cdkDropList
-        [id]="node.id + '_' + DropType.DROP_BEFORE"
-        class="tree-node-container-drop-zone before-node"
-        [class.hide]="!node.isFirstChild || dropControl.hideDrop"
-        [class.no-drop]="dropControl.preventDrop">
-        <div class="drop-insert-line"></div>
-        <div *ngIf="dropControl.preventDropReason" class="tooltip">
-          {{ dropControl.preventDropReason }}
-        </div>
-      </div>
-      <div
-        *ngIf="allowDrop(node, DropType.DROP_INTO) as dropControl"
-        cdkDropList
-        [id]="node.id + '_' + DropType.DROP_INTO"
-        class="tree-node-container-drop-zone into-node"
-        [class.hide]="dropControl.hideDrop"
-        [class.no-drop]="dropControl.preventDrop">
-        <div *ngIf="dropControl.preventDropReason" class="tooltip">
-          {{ dropControl.preventDropReason }}
-        </div>
-      </div>
+    <cdk-nested-tree-node *cdkTreeNodeDef="let node" class="tree-node">
       <div
         *ngIf="allowDrop(node, DropType.DROP_AFTER) as dropControl"
         cdkDropList
         [id]="node.id + '_' + DropType.DROP_AFTER"
-        class="tree-node-container-drop-zone after-node"
-        [class.last]="node.isLastChild"
-        [class.hide]="treeControl.isExpanded(node) || dropControl.hideDrop"
+        class="tree-node-container-drop-zone after-expanded-node"
+        [class.hide]="dropControl.hideDrop || !treeControl.isExpanded(node)"
         [class.no-drop]="dropControl.preventDrop">
         <div class="drop-insert-line"></div>
         <div *ngIf="dropControl.preventDropReason" class="tooltip">
           {{ dropControl.preventDropReason }}
         </div>
       </div>
-      <div
-        cdkDropList
-        [cdkDropListData]="node"
-        [cdkDropListEnterPredicate]="disable"
-        [cdkDropListSortPredicate]="disable">
+      <div class="tree-node-container">
         <div
-          cdkDrag
-          [cdkDragDisabled]="disableDrag(node)"
-          [cdkDragData]="node"
-          (cdkDragStarted)="dragging = node"
-          (cdkDragReleased)="handleDragRelease($event)">
-          <div *cdkDragPlaceholder></div>
-          <div
-            class="tree-node-content-container"
-            [class.first]="node.isFirstChild"
-            [class.last]="node.isLastChild"
-            [class.expanded]="treeControl.isExpanded(node)">
-            <apps-file-tree-node
-              size="lg"
-              style="width: 100%"
-              [nodeWrapper]="node"
-              [isSelected]="node.id === selectedNode?.id"
-              [treeControl]="treeControl"
-              [treeConfig]="config"
-              (customEvent)="customEvent.emit($event)"
-              (clickEvent)="nodeClicked(node)"></apps-file-tree-node>
+          *ngIf="allowDrop(node, DropType.DROP_BEFORE) as dropControl"
+          cdkDropList
+          [id]="node.id + '_' + DropType.DROP_BEFORE"
+          class="tree-node-container-drop-zone before-node"
+          [class.hide]="!node.isFirstChild || dropControl.hideDrop"
+          [class.no-drop]="dropControl.preventDrop">
+          <div class="drop-insert-line"></div>
+          <div *ngIf="dropControl.preventDropReason" class="tooltip">
+            {{ dropControl.preventDropReason }}
           </div>
         </div>
-        <apps-file-tree-node
-          size="lg"
-          *ngIf="node.id === dragging?.id"
-          [nodeWrapper]="node"
-          [treeControl]="treeControl"
-          [treeConfig]="config"></apps-file-tree-node>
+        <div
+          *ngIf="allowDrop(node, DropType.DROP_INTO) as dropControl"
+          cdkDropList
+          [id]="node.id + '_' + DropType.DROP_INTO"
+          class="tree-node-container-drop-zone into-node"
+          [class.hide]="dropControl.hideDrop"
+          [class.no-drop]="dropControl.preventDrop">
+          <div *ngIf="dropControl.preventDropReason" class="tooltip">
+            {{ dropControl.preventDropReason }}
+          </div>
+        </div>
+        <div
+          *ngIf="allowDrop(node, DropType.DROP_AFTER) as dropControl"
+          cdkDropList
+          [id]="node.id + '_' + DropType.DROP_AFTER"
+          class="tree-node-container-drop-zone after-node"
+          [class.last]="node.isLastChild"
+          [class.hide]="treeControl.isExpanded(node) || dropControl.hideDrop"
+          [class.no-drop]="dropControl.preventDrop">
+          <div class="drop-insert-line"></div>
+          <div *ngIf="dropControl.preventDropReason" class="tooltip">
+            {{ dropControl.preventDropReason }}
+          </div>
+        </div>
+        <div
+          cdkDropList
+          [cdkDropListData]="node"
+          [cdkDropListEnterPredicate]="disable"
+          [cdkDropListSortPredicate]="disable">
+
+          <div
+            cdkDrag
+            [cdkDragDisabled]="disableDrag(node)"
+            [cdkDragData]="node"
+            (cdkDragStarted)="dragging = node"
+            (cdkDragReleased)="handleDragRelease($event)">
+            <div *cdkDragPlaceholder></div>
+            <div
+              class="tree-node-content-container"
+              [class.first]="node.isFirstChild"
+              [class.last]="node.isLastChild"
+              [class.expanded]="treeControl.isExpanded(node)">
+              <apps-file-tree-node
+                size="lg"
+                style="width: 100%"
+                [nodeWrapper]="node"
+                [isSelected]="node.id === selectedNode?.id"
+                [treeControl]="treeControl"
+                [treeConfig]="config"
+                (customEvent)="customEvent.emit($event)"
+                (clickEvent)="nodeClicked(node)"></apps-file-tree-node>
+            </div>
+          </div>
+          <apps-file-tree-node
+            size="lg"
+            *ngIf="node.id === dragging?.id"
+            [nodeWrapper]="node"
+            [treeControl]="treeControl"
+            [treeConfig]="config"></apps-file-tree-node>
+        </div>
       </div>
-    </div>
-    <div
-      *ngIf="treeControl.isExpanded(node)"
-      class="tree-node-children-container"
-      [class.first]="node.isFirstChild"
-      [class.last]="node.isLastChild">
-      <div cdkTreeNodeOutlet></div>
-    </div>
-  </cdk-nested-tree-node>
-</cdk-tree>
+      <div
+        *ngIf="treeControl.isExpanded(node)"
+        class="tree-node-children-container"
+        [class.first]="node.isFirstChild"
+        [class.last]="node.isLastChild">
+        <div cdkTreeNodeOutlet></div>
+      </div>
+    </cdk-nested-tree-node>
+
+  </cdk-tree>
+</cdk-virtual-scroll-viewport>
